@@ -1,11 +1,8 @@
 
-int vMaxCell = 5;
-int vMinCell = 0;
+int cellPin = A0;
 
-float soisMax = 1;
-int soisMin = 0;
-
-int cellPin = A0; 
+float aCoefficient = 0,286860655897221;
+float bCoefficient = -0,157735967619378;
 
 void setup() 
 {
@@ -24,5 +21,6 @@ int sunLightIntensity()
 {
   float cell = analogRead(cellPin);
 
-  return map(cell, vMinCell, vMaxCell, soisMin, soisMax);
+  return (aCoefficient*cell + bCoefficient);
 }
+
