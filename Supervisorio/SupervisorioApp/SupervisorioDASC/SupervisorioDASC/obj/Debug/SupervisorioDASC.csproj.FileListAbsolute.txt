@@ -1,0 +1,10 @@
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\bin\Debug\SupervisorioDASC.exe.config
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\bin\Debug\SupervisorioDASC.exe
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\bin\Debug\SupervisorioDASC.pdb
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.csprojAssemblyReference.cache
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.Form1.resources
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.Properties.Resources.resources
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.csproj.GenerateResource.cache
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.csproj.CoreCompileInputs.cache
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.exe
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.pdb

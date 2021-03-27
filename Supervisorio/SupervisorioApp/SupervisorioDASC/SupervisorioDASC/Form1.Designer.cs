@@ -247,7 +247,7 @@ namespace SupervisorioDASC
             this.btnIniciar.TabIndex = 5;
             this.btnIniciar.Text = "Iniciar";
             this.btnIniciar.UseVisualStyleBackColor = true;
-            this.btnIniciar.Click += new System.EventHandler(this.btnSend_Click);
+            this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
             // 
             // Form1
             // 

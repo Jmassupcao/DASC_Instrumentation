@@ -14,6 +14,7 @@ namespace SupervisorioDASC
     public partial class Form1 : Form
     {
         String RxString;
+        String txt_Rec = string.Empty;
         public Form1()
         {
             InitializeComponent();
@@ -141,12 +142,8 @@ namespace SupervisorioDASC
         {
             if (Serial.IsOpen)
             {
-                
+                Serial.Write("IN000000\r");
             }
-        }
-        private void TreatRecivedData(object sender, EventArgs e)
-        {
-
         }
         private void Serial_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -155,10 +152,33 @@ namespace SupervisorioDASC
             //chama outra thread para escrever o dado em algum lugar do formulário
             this.Invoke(new EventHandler(TreatRecivedData));
         }
-
+        private void TreatRecivedData(object sender, EventArgs e)
+        {
+            txt_Rec += RxString;
+            
+            if(txt_Rec.Length >= 8)
+            {
+                if(txt_Rec.Substring(0, 1) == "A")
+                {
+                    lblLeitura.Text = txt_Rec.Substring(4, 4);
+                }
+                txt_Rec = String.Empty;
+            }
+        }
         private void btnFinalizar_Click(object sender, EventArgs e)
         {
+            if(Serial.IsOpen)
+            {
+                Serial.Write("FN000000\r");
+            }
+        }
 
+        private void btnIniciar_Click(object sender, EventArgs e)
+        {
+            if(Serial.IsOpen)
+            {
+                Serial.Write("IN000000\r");
+            }
         }
     }
 }
