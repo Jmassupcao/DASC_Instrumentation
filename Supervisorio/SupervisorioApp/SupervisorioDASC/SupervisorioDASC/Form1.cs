@@ -141,17 +141,11 @@ namespace SupervisorioDASC
         {
             if (Serial.IsOpen)
             {
-                if (ckCR.Checked)
-                    Serial.Write(txtTransmition.Text + "\r");
-                else
-                    Serial.Write(txtTransmition.Text);
-
-                txtTransmition.Text = "";
+                
             }
         }
         private void TreatRecivedData(object sender, EventArgs e)
         {
-            txtReception.Text += RxString;
 
         }
         private void Serial_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -160,6 +154,11 @@ namespace SupervisorioDASC
 
             //chama outra thread para escrever o dado em algum lugar do formulário
             this.Invoke(new EventHandler(TreatRecivedData));
+        }
+
+        private void btnFinalizar_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

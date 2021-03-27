@@ -46,14 +46,11 @@ namespace SupervisorioDASC
             this.btnExit = new System.Windows.Forms.Button();
             this.Serial = new System.IO.Ports.SerialPort(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnSend = new System.Windows.Forms.Button();
-            this.txtTransmition = new System.Windows.Forms.TextBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txtReception = new System.Windows.Forms.TextBox();
-            this.ckCR = new System.Windows.Forms.CheckBox();
+            this.btnFinalizar = new System.Windows.Forms.Button();
+            this.lblLeitura = new System.Windows.Forms.Label();
+            this.btnIniciar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -136,27 +133,27 @@ namespace SupervisorioDASC
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(537, 38);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(68, 17);
+            this.label5.Size = new System.Drawing.Size(105, 17);
             this.label5.TabIndex = 4;
-            this.label5.Text = "Stop Bits:";
+            this.label5.Text = "Bits de Parada:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(406, 38);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(69, 17);
+            this.label4.Size = new System.Drawing.Size(93, 17);
             this.label4.TabIndex = 3;
-            this.label4.Text = "Data Bits:";
+            this.label4.Text = "Bit de Dados:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(273, 38);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(48, 17);
+            this.label3.Size = new System.Drawing.Size(73, 17);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Parity:";
+            this.label3.Text = "Paridade: ";
             // 
             // label2
             // 
@@ -172,9 +169,9 @@ namespace SupervisorioDASC
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 38);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 17);
+            this.label1.Size = new System.Drawing.Size(46, 17);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Ports:";
+            this.label1.Text = "Porta:";
             // 
             // btnClose
             // 
@@ -182,7 +179,7 @@ namespace SupervisorioDASC
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(98, 32);
             this.btnClose.TabIndex = 1;
-            this.btnClose.Text = "Close Port";
+            this.btnClose.Text = "Fechar Porta";
             this.btnClose.UseVisualStyleBackColor = true;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
@@ -192,17 +189,17 @@ namespace SupervisorioDASC
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(98, 32);
             this.btnOpen.TabIndex = 2;
-            this.btnOpen.Text = "Open Port";
+            this.btnOpen.Text = "Abrir Porta";
             this.btnOpen.UseVisualStyleBackColor = true;
             this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(676, 500);
+            this.btnExit.Location = new System.Drawing.Point(676, 187);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(98, 28);
             this.btnExit.TabIndex = 3;
-            this.btnExit.Text = "Exit";
+            this.btnExit.Text = "Sair";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
@@ -212,67 +209,51 @@ namespace SupervisorioDASC
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.ckCR);
-            this.groupBox2.Controls.Add(this.btnSend);
-            this.groupBox2.Controls.Add(this.txtTransmition);
+            this.groupBox2.Controls.Add(this.btnFinalizar);
+            this.groupBox2.Controls.Add(this.lblLeitura);
+            this.groupBox2.Controls.Add(this.btnIniciar);
             this.groupBox2.Location = new System.Drawing.Point(12, 122);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(658, 124);
+            this.groupBox2.Size = new System.Drawing.Size(317, 117);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Transmition";
+            this.groupBox2.Text = "Controle ";
             // 
-            // btnSend
+            // btnFinalizar
             // 
-            this.btnSend.Location = new System.Drawing.Point(547, 79);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(98, 29);
-            this.btnSend.TabIndex = 5;
-            this.btnSend.Text = "Send";
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            this.btnFinalizar.Location = new System.Drawing.Point(194, 63);
+            this.btnFinalizar.Name = "btnFinalizar";
+            this.btnFinalizar.Size = new System.Drawing.Size(98, 29);
+            this.btnFinalizar.TabIndex = 7;
+            this.btnFinalizar.Text = "Finalizar";
+            this.btnFinalizar.UseVisualStyleBackColor = true;
+            this.btnFinalizar.Click += new System.EventHandler(this.btnFinalizar_Click);
             // 
-            // txtTransmition
+            // lblLeitura
             // 
-            this.txtTransmition.Location = new System.Drawing.Point(6, 40);
-            this.txtTransmition.Name = "txtTransmition";
-            this.txtTransmition.Size = new System.Drawing.Size(639, 22);
-            this.txtTransmition.TabIndex = 0;
+            this.lblLeitura.AutoSize = true;
+            this.lblLeitura.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLeitura.Location = new System.Drawing.Point(6, 28);
+            this.lblLeitura.Name = "lblLeitura";
+            this.lblLeitura.Size = new System.Drawing.Size(162, 69);
+            this.lblLeitura.TabIndex = 6;
+            this.lblLeitura.Text = "0000";
             // 
-            // groupBox3
+            // btnIniciar
             // 
-            this.groupBox3.Controls.Add(this.txtReception);
-            this.groupBox3.Location = new System.Drawing.Point(12, 252);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(657, 276);
-            this.groupBox3.TabIndex = 5;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Reception";
-            // 
-            // txtReception
-            // 
-            this.txtReception.Location = new System.Drawing.Point(9, 21);
-            this.txtReception.Multiline = true;
-            this.txtReception.Name = "txtReception";
-            this.txtReception.Size = new System.Drawing.Size(636, 237);
-            this.txtReception.TabIndex = 0;
-            // 
-            // ckCR
-            // 
-            this.ckCR.AutoSize = true;
-            this.ckCR.Location = new System.Drawing.Point(9, 79);
-            this.ckCR.Name = "ckCR";
-            this.ckCR.Size = new System.Drawing.Size(49, 21);
-            this.ckCR.TabIndex = 6;
-            this.ckCR.Text = "CR";
-            this.ckCR.UseVisualStyleBackColor = true;
+            this.btnIniciar.Location = new System.Drawing.Point(194, 28);
+            this.btnIniciar.Name = "btnIniciar";
+            this.btnIniciar.Size = new System.Drawing.Size(98, 29);
+            this.btnIniciar.TabIndex = 5;
+            this.btnIniciar.Text = "Iniciar";
+            this.btnIniciar.UseVisualStyleBackColor = true;
+            this.btnIniciar.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 543);
-            this.Controls.Add(this.groupBox3);
+            this.ClientSize = new System.Drawing.Size(796, 256);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnOpen);
@@ -286,8 +267,6 @@ namespace SupervisorioDASC
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -310,11 +289,9 @@ namespace SupervisorioDASC
         private System.Windows.Forms.Button btnExit;
         private System.IO.Ports.SerialPort Serial;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button btnSend;
-        private System.Windows.Forms.TextBox txtTransmition;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.TextBox txtReception;
-        private System.Windows.Forms.CheckBox ckCR;
+        private System.Windows.Forms.Button btnIniciar;
+        private System.Windows.Forms.Button btnFinalizar;
+        private System.Windows.Forms.Label lblLeitura;
     }
 }
 
