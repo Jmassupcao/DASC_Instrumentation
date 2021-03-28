@@ -47,8 +47,21 @@ namespace SupervisorioDASC
             this.Serial = new System.IO.Ports.SerialPort(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnFinalizar = new System.Windows.Forms.Button();
-            this.lblLeitura = new System.Windows.Forms.Label();
+            this.lblSolar = new System.Windows.Forms.Label();
             this.btnIniciar = new System.Windows.Forms.Button();
+            this.lblTempInicial = new System.Windows.Forms.Label();
+            this.lblTempFinal = new System.Windows.Forms.Label();
+            this.lblTempAmb = new System.Windows.Forms.Label();
+            this.lblUmidade = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tbxDuracao = new System.Windows.Forms.TextBox();
+            this.tbxTimeAquisicao = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -195,7 +208,7 @@ namespace SupervisorioDASC
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(676, 187);
+            this.btnExit.Location = new System.Drawing.Point(676, 367);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(98, 28);
             this.btnExit.TabIndex = 3;
@@ -209,19 +222,32 @@ namespace SupervisorioDASC
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.tbxTimeAquisicao);
+            this.groupBox2.Controls.Add(this.tbxDuracao);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.label14);
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.btnFinalizar);
-            this.groupBox2.Controls.Add(this.lblLeitura);
+            this.groupBox2.Controls.Add(this.lblUmidade);
             this.groupBox2.Controls.Add(this.btnIniciar);
+            this.groupBox2.Controls.Add(this.lblTempAmb);
+            this.groupBox2.Controls.Add(this.lblTempFinal);
+            this.groupBox2.Controls.Add(this.lblTempInicial);
+            this.groupBox2.Controls.Add(this.lblSolar);
             this.groupBox2.Location = new System.Drawing.Point(12, 122);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(317, 117);
+            this.groupBox2.Size = new System.Drawing.Size(605, 273);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Controle ";
             // 
             // btnFinalizar
             // 
-            this.btnFinalizar.Location = new System.Drawing.Point(194, 63);
+            this.btnFinalizar.Location = new System.Drawing.Point(493, 64);
             this.btnFinalizar.Name = "btnFinalizar";
             this.btnFinalizar.Size = new System.Drawing.Size(98, 29);
             this.btnFinalizar.TabIndex = 7;
@@ -229,19 +255,19 @@ namespace SupervisorioDASC
             this.btnFinalizar.UseVisualStyleBackColor = true;
             this.btnFinalizar.Click += new System.EventHandler(this.btnFinalizar_Click);
             // 
-            // lblLeitura
+            // lblSolar
             // 
-            this.lblLeitura.AutoSize = true;
-            this.lblLeitura.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLeitura.Location = new System.Drawing.Point(6, 28);
-            this.lblLeitura.Name = "lblLeitura";
-            this.lblLeitura.Size = new System.Drawing.Size(162, 69);
-            this.lblLeitura.TabIndex = 6;
-            this.lblLeitura.Text = "0000";
+            this.lblSolar.AutoSize = true;
+            this.lblSolar.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSolar.Location = new System.Drawing.Point(5, 129);
+            this.lblSolar.Name = "lblSolar";
+            this.lblSolar.Size = new System.Drawing.Size(137, 58);
+            this.lblSolar.TabIndex = 6;
+            this.lblSolar.Text = "0000";
             // 
             // btnIniciar
             // 
-            this.btnIniciar.Location = new System.Drawing.Point(194, 28);
+            this.btnIniciar.Location = new System.Drawing.Point(493, 21);
             this.btnIniciar.Name = "btnIniciar";
             this.btnIniciar.Size = new System.Drawing.Size(98, 29);
             this.btnIniciar.TabIndex = 5;
@@ -249,11 +275,128 @@ namespace SupervisorioDASC
             this.btnIniciar.UseVisualStyleBackColor = true;
             this.btnIniciar.Click += new System.EventHandler(this.btnIniciar_Click);
             // 
+            // lblTempInicial
+            // 
+            this.lblTempInicial.AutoSize = true;
+            this.lblTempInicial.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTempInicial.Location = new System.Drawing.Point(148, 129);
+            this.lblTempInicial.Name = "lblTempInicial";
+            this.lblTempInicial.Size = new System.Drawing.Size(141, 58);
+            this.lblTempInicial.TabIndex = 8;
+            this.lblTempInicial.Text = "0000";
+            // 
+            // lblTempFinal
+            // 
+            this.lblTempFinal.AutoSize = true;
+            this.lblTempFinal.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTempFinal.Location = new System.Drawing.Point(148, 213);
+            this.lblTempFinal.Name = "lblTempFinal";
+            this.lblTempFinal.Size = new System.Drawing.Size(141, 58);
+            this.lblTempFinal.TabIndex = 9;
+            this.lblTempFinal.Text = "0000";
+            // 
+            // lblTempAmb
+            // 
+            this.lblTempAmb.AutoSize = true;
+            this.lblTempAmb.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTempAmb.Location = new System.Drawing.Point(295, 129);
+            this.lblTempAmb.Name = "lblTempAmb";
+            this.lblTempAmb.Size = new System.Drawing.Size(141, 58);
+            this.lblTempAmb.TabIndex = 10;
+            this.lblTempAmb.Text = "0000";
+            // 
+            // lblUmidade
+            // 
+            this.lblUmidade.AutoSize = true;
+            this.lblUmidade.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUmidade.Location = new System.Drawing.Point(295, 213);
+            this.lblUmidade.Name = "lblUmidade";
+            this.lblUmidade.Size = new System.Drawing.Size(141, 58);
+            this.lblUmidade.TabIndex = 11;
+            this.lblUmidade.Text = "0000";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(14, 112);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(122, 17);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "Intensidade Solar:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(155, 112);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(133, 17);
+            this.label11.TabIndex = 13;
+            this.label11.Text = "Temperatura Inicial:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(155, 196);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(128, 17);
+            this.label12.TabIndex = 14;
+            this.label12.Text = "Temperatura Final:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(302, 112);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(157, 17);
+            this.label13.TabIndex = 15;
+            this.label13.Text = "Temperatura Ambiente:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(302, 196);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(131, 17);
+            this.label14.TabIndex = 16;
+            this.label14.Text = "Umidade Ambiente:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(14, 30);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(248, 17);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Duração do Experimento (segundos) :";
+            // 
+            // tbxDuracao
+            // 
+            this.tbxDuracao.Location = new System.Drawing.Point(268, 27);
+            this.tbxDuracao.Name = "tbxDuracao";
+            this.tbxDuracao.Size = new System.Drawing.Size(100, 22);
+            this.tbxDuracao.TabIndex = 19;
+            // 
+            // tbxTimeAquisicao
+            // 
+            this.tbxTimeAquisicao.Location = new System.Drawing.Point(268, 62);
+            this.tbxTimeAquisicao.Name = "tbxTimeAquisicao";
+            this.tbxTimeAquisicao.Size = new System.Drawing.Size(100, 22);
+            this.tbxTimeAquisicao.TabIndex = 20;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(14, 65);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(217, 17);
+            this.label7.TabIndex = 21;
+            this.label7.Text = "Tempo de Aquisição (segundos):";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 256);
+            this.ClientSize = new System.Drawing.Size(796, 415);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnOpen);
@@ -274,7 +417,6 @@ namespace SupervisorioDASC
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox cbPorts;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
@@ -291,7 +433,21 @@ namespace SupervisorioDASC
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnIniciar;
         private System.Windows.Forms.Button btnFinalizar;
-        private System.Windows.Forms.Label lblLeitura;
+        private System.Windows.Forms.Label lblSolar;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblUmidade;
+        private System.Windows.Forms.Label lblTempAmb;
+        private System.Windows.Forms.Label lblTempFinal;
+        private System.Windows.Forms.Label lblTempInicial;
+        protected System.Windows.Forms.ComboBox cbPorts;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox tbxDuracao;
+        private System.Windows.Forms.TextBox tbxTimeAquisicao;
+        private System.Windows.Forms.Label label7;
     }
 }
 

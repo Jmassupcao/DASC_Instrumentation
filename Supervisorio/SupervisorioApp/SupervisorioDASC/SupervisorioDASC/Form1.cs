@@ -140,10 +140,7 @@ namespace SupervisorioDASC
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (Serial.IsOpen)
-            {
-                Serial.Write("IN000000\r");
-            }
+
         }
         private void Serial_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -154,16 +151,7 @@ namespace SupervisorioDASC
         }
         private void TreatRecivedData(object sender, EventArgs e)
         {
-            txt_Rec += RxString;
-            
-            if(txt_Rec.Length >= 8)
-            {
-                if(txt_Rec.Substring(0, 1) == "A")
-                {
-                    lblLeitura.Text = txt_Rec.Substring(4, 4);
-                }
-                txt_Rec = String.Empty;
-            }
+
         }
         private void btnFinalizar_Click(object sender, EventArgs e)
         {
@@ -179,6 +167,11 @@ namespace SupervisorioDASC
             {
                 Serial.Write("IN000000\r");
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
