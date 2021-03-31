@@ -153,10 +153,25 @@ namespace SupervisorioDASC
             
             if(txt_Rec.Length >= 8)
             {
-                if (txt_Rec.Substring(0,1) == "A")
+                switch(txt_Rec.Substring(0,1))
                 {
-                    lblSolar.Text = txt_Rec.Substring(4, 4);
+                    case "A":
+                        lblSolar.Text = txt_Rec.Substring(4, 4);
+                        break;
+                    case "B":
+                        lblTempInicial.Text = txt_Rec.Substring(4, 4);
+                        break;
+                    case "C":
+                        lblTempFinal.Text = txt_Rec.Substring(4, 4);
+                        break;
+                    case "D":
+                        lblTempAmb.Text = txt_Rec.Substring(4, 4);
+                        break;
+                    case "E":
+                        lblUmidade.Text = txt_Rec.Substring(4, 4);
+                        break;
                 }
+                
                 txt_Rec = string.Empty;
             }
         }
