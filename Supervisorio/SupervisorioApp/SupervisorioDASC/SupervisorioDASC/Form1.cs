@@ -15,6 +15,9 @@ namespace SupervisorioDASC
     {
         String RxString;
         String txt_Rec = string.Empty;
+        Int32 baundRate = 9600;
+        Int32 bitDados = 8;
+
         public Form1()
         {
             InitializeComponent();
@@ -33,7 +36,7 @@ namespace SupervisorioDASC
             //Select the 0 index of cbPorts
             cbPorts.SelectedIndex = 0;
         }
-        private void parity()
+        /*private void parity()
         {
             //control combo variable 
             int i = 0;
@@ -54,8 +57,8 @@ namespace SupervisorioDASC
                 //Increment the i variable
                 i++;
             }
-        }
-        private void stopBits()
+        }*/
+        /*private void stopBits()
         {
             //control combo variable 
             int i = 0;
@@ -76,18 +79,18 @@ namespace SupervisorioDASC
                 //Increment the i variable
                 i++;
             }
-        }
+        }*/
         private void Form1_Load(object sender, EventArgs e)
         {
             updateCom();
 
-            cbBaund.SelectedText = "9600";
+            //cbBaund.SelectedText = "9600";
 
-            parity();
+            //parity();
 
-            cbDataBits.SelectedText = "8";
+            //cbDataBits.SelectedText = "8";
 
-            stopBits();
+            //stopBits();
 
             btnOpen.Enabled = true;
             btnClose.Enabled = false;
@@ -100,10 +103,10 @@ namespace SupervisorioDASC
             if (Serial.IsOpen == true) Serial.Close();
 
             Serial.PortName = cbPorts.Text;
-            Serial.BaudRate = Int32.Parse(cbBaund.Text);
-            Serial.Parity = (Parity)cbParity.SelectedIndex;
-            Serial.DataBits = Int32.Parse(cbDataBits.Text);
-            Serial.StopBits = (StopBits)cbStopBits.SelectedIndex;
+            Serial.BaudRate = baundRate;
+            Serial.Parity = Parity.None;
+            Serial.DataBits = bitDados;
+            Serial.StopBits = StopBits.One;
 
             try
             {
@@ -137,11 +140,6 @@ namespace SupervisorioDASC
         {
             Close();
         }
-
-        private void btnSend_Click(object sender, EventArgs e)
-        {
-
-        }
         private void Serial_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             RxString = Serial.ReadExisting();
@@ -151,7 +149,16 @@ namespace SupervisorioDASC
         }
         private void TreatRecivedData(object sender, EventArgs e)
         {
-
+            txt_Rec += RxString;
+            
+            if(txt_Rec.Length >= 8)
+            {
+                if (txt_Rec.Substring(0,1) == "A")
+                {
+                    lblSolar.Text = txt_Rec.Substring(4, 4);
+                }
+                txt_Rec = string.Empty;
+            }
         }
         private void btnFinalizar_Click(object sender, EventArgs e)
         {
@@ -163,14 +170,10 @@ namespace SupervisorioDASC
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            if(Serial.IsOpen)
+            if (Serial.IsOpen)
             {
                 Serial.Write("IN000000\r");
             }
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
         }
     }
