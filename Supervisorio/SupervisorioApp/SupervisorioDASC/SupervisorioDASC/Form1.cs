@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO.Ports;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,13 +16,21 @@ namespace SupervisorioDASC
     {
         String RxString;
         String txt_Rec = string.Empty;
+
         Int32 baundRate = 9600;
         Int32 bitDados = 8;
+
+        List<string> dataList = new List<string>();
+        String txt_List = string.Empty;
+        String timeAquisicao;
+        Double count;
+        int qtde_data = 0;
 
         public Form1()
         {
             InitializeComponent();
         }
+         
         private void updateCom()
         {
             //clear all items in cb Ports
@@ -157,29 +166,48 @@ namespace SupervisorioDASC
                 {
                     case "A":
                         lblSolar.Text = txt_Rec.Substring(4, 4);
+                        txt_List = txt_Rec.Substring(4, 4);
                         break;
                     case "B":
                         lblTempInicial.Text = txt_Rec.Substring(4, 4);
+                        txt_List += ", " + txt_Rec.Substring(4, 4);
                         break;
                     case "C":
                         lblTempFinal.Text = txt_Rec.Substring(4, 4);
+                        txt_List += ", " + txt_Rec.Substring(4, 4);
                         break;
                     case "D":
                         lblTempAmb.Text = txt_Rec.Substring(4, 4);
+                        txt_List += ", " + txt_Rec.Substring(4, 4);
                         break;
                     case "E":
                         lblUmidade.Text = txt_Rec.Substring(4, 4);
+                        txt_List += ", " + txt_Rec.Substring(4, 4);
                         break;
                 }
                 
                 txt_Rec = string.Empty;
             }
         }
+
+        private void tmrApp_Tick(object sender, EventArgs e)
+        {
+         
+            dataList.Add(Convert.ToString(count) + ", " + txt_List);
+            //Serial.Write(dataList[qtde_data]);
+           
+            qtde_data++;
+
+            count += count;
+        }
+     
         private void btnFinalizar_Click(object sender, EventArgs e)
         {
             if(Serial.IsOpen)
             {
                 Serial.Write("FN000000\r");
+                tmrApp.Enabled = false;
+                timeAquisicao = string.Empty;
             }
         }
 
@@ -187,9 +215,37 @@ namespace SupervisorioDASC
         {
             if (Serial.IsOpen)
             {
+                timeAquisicao = tbxTimeAquisicao.Text;
+                count = Convert.ToDouble(timeAquisicao);
+                tmrApp.Interval = Int32.Parse(timeAquisicao) * 1000; 
                 Serial.Write("IN000000\r");
+                tmrApp.Enabled = true;
             }
 
+        }
+
+        private void salvarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TextWriter Arq;
+
+            try
+            {
+                if(svArquivo.ShowDialog() == DialogResult.OK)
+                {
+                    Arq = File.AppendText(svArquivo.FileName);
+
+                    for (int i = 0; i < qtde_data; i++)
+                        Arq.WriteLine(dataList[i]);
+
+                    Arq.Close();
+                }
+
+                MessageBox.Show("Arquivo salvo com sucesso!");
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show(erro.ToString());
+            }
         }
     }
 }

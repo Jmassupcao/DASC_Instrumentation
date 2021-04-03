@@ -59,9 +59,17 @@ namespace SupervisorioDASC
             this.lblTempInicial = new System.Windows.Forms.Label();
             this.lblSolar = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.tmrApp = new System.Windows.Forms.Timer(this.components);
+            this.mnApp = new System.Windows.Forms.MenuStrip();
+            this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salvarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.svArquivo = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.mnApp.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -72,9 +80,9 @@ namespace SupervisorioDASC
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(17, 48);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(308, 104);
+            this.groupBox1.Size = new System.Drawing.Size(308, 108);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Configuração";
@@ -82,7 +90,7 @@ namespace SupervisorioDASC
             // cbPorts
             // 
             this.cbPorts.FormattingEnabled = true;
-            this.cbPorts.Location = new System.Drawing.Point(6, 58);
+            this.cbPorts.Location = new System.Drawing.Point(6, 54);
             this.cbPorts.Name = "cbPorts";
             this.cbPorts.Size = new System.Drawing.Size(100, 24);
             this.cbPorts.TabIndex = 5;
@@ -90,7 +98,7 @@ namespace SupervisorioDASC
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(129, 44);
+            this.label5.Location = new System.Drawing.Point(129, 40);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(136, 17);
             this.label5.TabIndex = 4;
@@ -99,7 +107,7 @@ namespace SupervisorioDASC
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(129, 76);
+            this.label4.Location = new System.Drawing.Point(129, 72);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(105, 17);
             this.label4.TabIndex = 3;
@@ -108,7 +116,7 @@ namespace SupervisorioDASC
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(129, 61);
+            this.label3.Location = new System.Drawing.Point(129, 57);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(107, 17);
             this.label3.TabIndex = 2;
@@ -117,7 +125,7 @@ namespace SupervisorioDASC
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(129, 27);
+            this.label2.Location = new System.Drawing.Point(129, 23);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(160, 17);
             this.label2.TabIndex = 1;
@@ -126,7 +134,7 @@ namespace SupervisorioDASC
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 38);
+            this.label1.Location = new System.Drawing.Point(6, 34);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 17);
             this.label1.TabIndex = 0;
@@ -134,9 +142,9 @@ namespace SupervisorioDASC
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(326, 73);
+            this.btnClose.Location = new System.Drawing.Point(331, 109);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(98, 32);
+            this.btnClose.Size = new System.Drawing.Size(98, 36);
             this.btnClose.TabIndex = 1;
             this.btnClose.Text = "Fechar Porta";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -144,9 +152,9 @@ namespace SupervisorioDASC
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(326, 35);
+            this.btnOpen.Location = new System.Drawing.Point(331, 71);
             this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(98, 32);
+            this.btnOpen.Size = new System.Drawing.Size(98, 36);
             this.btnOpen.TabIndex = 2;
             this.btnOpen.Text = "Abrir Porta";
             this.btnOpen.UseVisualStyleBackColor = true;
@@ -154,9 +162,9 @@ namespace SupervisorioDASC
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(676, 367);
+            this.btnExit.Location = new System.Drawing.Point(681, 403);
             this.btnExit.Name = "btnExit";
-            this.btnExit.Size = new System.Drawing.Size(98, 28);
+            this.btnExit.Size = new System.Drawing.Size(98, 32);
             this.btnExit.TabIndex = 3;
             this.btnExit.Text = "Sair";
             this.btnExit.UseVisualStyleBackColor = true;
@@ -184,9 +192,9 @@ namespace SupervisorioDASC
             this.groupBox2.Controls.Add(this.lblTempFinal);
             this.groupBox2.Controls.Add(this.lblTempInicial);
             this.groupBox2.Controls.Add(this.lblSolar);
-            this.groupBox2.Location = new System.Drawing.Point(12, 122);
+            this.groupBox2.Location = new System.Drawing.Point(17, 158);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(605, 273);
+            this.groupBox2.Size = new System.Drawing.Size(605, 277);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Controle ";
@@ -272,7 +280,7 @@ namespace SupervisorioDASC
             // 
             this.btnFinalizar.Location = new System.Drawing.Point(493, 64);
             this.btnFinalizar.Name = "btnFinalizar";
-            this.btnFinalizar.Size = new System.Drawing.Size(98, 29);
+            this.btnFinalizar.Size = new System.Drawing.Size(98, 33);
             this.btnFinalizar.TabIndex = 7;
             this.btnFinalizar.Text = "Finalizar";
             this.btnFinalizar.UseVisualStyleBackColor = true;
@@ -292,7 +300,7 @@ namespace SupervisorioDASC
             // 
             this.btnIniciar.Location = new System.Drawing.Point(493, 21);
             this.btnIniciar.Name = "btnIniciar";
-            this.btnIniciar.Size = new System.Drawing.Size(98, 29);
+            this.btnIniciar.Size = new System.Drawing.Size(98, 33);
             this.btnIniciar.TabIndex = 5;
             this.btnIniciar.Text = "Iniciar";
             this.btnIniciar.UseVisualStyleBackColor = true;
@@ -341,23 +349,73 @@ namespace SupervisorioDASC
             // pictureBox1
             // 
             this.pictureBox1.Image = global::SupervisorioDASC.Properties.Resources.poliUpe;
-            this.pictureBox1.Location = new System.Drawing.Point(441, -4);
+            this.pictureBox1.Location = new System.Drawing.Point(446, 32);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(343, 120);
+            this.pictureBox1.Size = new System.Drawing.Size(343, 124);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
+            // 
+            // tmrApp
+            // 
+            this.tmrApp.Tick += new System.EventHandler(this.tmrApp_Tick);
+            // 
+            // mnApp
+            // 
+            this.mnApp.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.mnApp.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.arquivoToolStripMenuItem});
+            this.mnApp.Location = new System.Drawing.Point(0, 0);
+            this.mnApp.Name = "mnApp";
+            this.mnApp.Size = new System.Drawing.Size(814, 28);
+            this.mnApp.TabIndex = 6;
+            this.mnApp.Text = "menuStrip1";
+            // 
+            // arquivoToolStripMenuItem
+            // 
+            this.arquivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.salvarToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.sairToolStripMenuItem});
+            this.arquivoToolStripMenuItem.Name = "arquivoToolStripMenuItem";
+            this.arquivoToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
+            this.arquivoToolStripMenuItem.Text = "Arquivo";
+            // 
+            // salvarToolStripMenuItem
+            // 
+            this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
+            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.salvarToolStripMenuItem.Text = "Salvar";
+            this.salvarToolStripMenuItem.Click += new System.EventHandler(this.salvarToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(221, 6);
+            // 
+            // sairToolStripMenuItem
+            // 
+            this.sairToolStripMenuItem.Name = "sairToolStripMenuItem";
+            this.sairToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.sairToolStripMenuItem.Text = "Sair";
+            // 
+            // svArquivo
+            // 
+            this.svArquivo.DefaultExt = "txt";
+            this.svArquivo.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            this.svArquivo.Title = "Salvar Arquivo";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(796, 415);
+            this.ClientSize = new System.Drawing.Size(814, 445);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnOpen);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.mnApp);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
@@ -367,7 +425,10 @@ namespace SupervisorioDASC
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.mnApp.ResumeLayout(false);
+            this.mnApp.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -402,6 +463,13 @@ namespace SupervisorioDASC
         private System.Windows.Forms.TextBox tbxTimeAquisicao;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Timer tmrApp;
+        private System.Windows.Forms.MenuStrip mnApp;
+        private System.Windows.Forms.ToolStripMenuItem arquivoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem salvarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog svArquivo;
     }
 }
 
