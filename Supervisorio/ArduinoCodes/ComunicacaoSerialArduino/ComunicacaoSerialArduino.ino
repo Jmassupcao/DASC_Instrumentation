@@ -92,7 +92,7 @@ void enviarSerial(bool sEvent, int one, int two, int three, int four, int five)
 
   char ad_buffer[46];
 
-  snprintf(ad_buffer, sizeof(ad_buffer), "AN0=%04d:BN0=%04d:CN0=%04d:DN0=%04d:EN0=%04d:", 
+  snprintf(ad_buffer, sizeof(ad_buffer), "AN0:%04d:BN0:%04d:CN0:%04d:DN0:%04d:EN0:%04d:", 
                                                   adOne, adTwo, adThree, adFour, adFive);
   Serial.print(ad_buffer);
   delay(300); 

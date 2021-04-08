@@ -254,6 +254,12 @@ namespace SupervisorioDASC
                 timeAquisicao = string.Empty; //limpa a variável que informa o intervalo de tempo do timer
 
                 Serial.Close(); //termina a comunicação serial
+
+                btnOpen.Enabled = true;
+                btnClose.Enabled = false;
+                btnExit.Enabled = true;
+                btnIniciar.Enabled = false;
+                btnFinalizar.Enabled = false;
             }
         }
 
