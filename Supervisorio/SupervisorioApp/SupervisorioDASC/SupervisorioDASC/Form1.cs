@@ -158,11 +158,28 @@ namespace SupervisorioDASC
         }
         private void TreatRecivedData(object sender, EventArgs e)
         {
-            txt_Rec += RxString;
+            string[] txtSplit; //variável para armazenar as partes da variável enviada pelo arduino
+            txt_Rec += RxString; //armazena as strings que chegam na serial na variável txt_rec
             
-            if(txt_Rec.Length >= 8)
+            if(txt_Rec.Length >= 45) //confere se a variável tem 45 caractéres ou mais
             {
-                switch(txt_Rec.Substring(0,1))
+                txtSplit = txt_Rec.Split(':'); //divide os caracteres tendo como referencia ':'
+                txt_Rec = string.Empty;
+
+                if (txtSplit[0] == "AN0") //verifica se o primeiro grupo de caractere começa com 'ANO'
+                {
+                    txt_List = txtSplit[1] + ',' + txtSplit[3] + ',' + txtSplit[5] + 
+                                              ',' + txtSplit[7] + ',' + txtSplit[9]; //Armazena as informações recebidas em uma variável que vai ser salva num arquivo txt
+
+                    //escreve as informações recebidas pelo arduino nos labels do supervisório
+                    lblSolar.Text       = txtSplit[1];
+                    lblTempInicial.Text = txtSplit[3];
+                    lblTempFinal.Text   = txtSplit[5];
+                    lblTempAmb.Text     = txtSplit[7];
+                    lblUmidade.Text     = txtSplit[9];
+                }
+                    
+                /*switch(txt_Rec.Substring(0,1))
                 {
                     case "A":
                         lblSolar.Text = txt_Rec.Substring(4, 4);
@@ -186,14 +203,14 @@ namespace SupervisorioDASC
                         break;
                 }
                 
-                txt_Rec = string.Empty;
+                txt_Rec = string.Empty;*/
             }
         }
 
         private void tmrApp_Tick(object sender, EventArgs e)
         {
          
-            dataList.Add(Convert.ToString(count) + ", " + txt_List);
+            dataList.Add(Convert.ToString(count) + "," + txt_List);
             //Serial.Write(dataList[qtde_data]);
            
             qtde_data++;
@@ -215,25 +232,30 @@ namespace SupervisorioDASC
         {
             if (Serial.IsOpen)
             {
-                timeAquisicao = tbxTimeAquisicao.Text;
-                count = Convert.ToDouble(timeAquisicao);
-                tmrApp.Interval = Int32.Parse(timeAquisicao) * 1000; 
-                Serial.Write("IN000000\r");
-                tmrApp.Enabled = true;
+                timeAquisicao = tbxTimeAquisicao.Text; //armazena o tempo de aquisição informado pelo usuário na variável 
+                count = Convert.ToDouble(timeAquisicao); //converte o valor para double, para fazer a contagem do tempo ao decorrer do esperimento
+                tmrApp.Interval = Int32.Parse(timeAquisicao) * 1000; //indica qual vai ser o intervalo do timer de acordo com o valor informado pelo usuário
+
+                Serial.Write("IN000000\r"); //envia a mensagem de inicialização para o arduino
+                tmrApp.Enabled = true; //início da contagem do timer 
             }
 
         }
 
         private void salvarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TextWriter Arq;
+            TextWriter Arq; //criar arquivo que serão armazenado os dados
 
             try
             {
                 if(svArquivo.ShowDialog() == DialogResult.OK)
                 {
-                    Arq = File.AppendText(svArquivo.FileName);
+                    Arq = File.AppendText(svArquivo.FileName); //indica o nome do arquivo
 
+                    Arq.WriteLine("Tempo, Intensidade Solar, Temperatura Inicial, Temperatura Final, " +
+                                                              "Temperatura Ambiente, Umidade Ambiente"); //escreve os labels de cada coluna na primeira linha
+
+                    //escreve todos os dados armazenados na variável dataList
                     for (int i = 0; i < qtde_data; i++)
                         Arq.WriteLine(dataList[i]);
 
