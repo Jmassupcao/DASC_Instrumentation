@@ -28,8 +28,12 @@ void setup() {
 
 void loop() {
 
-    enviarSerial(adc, pinSolar, pinTempIn, pinTempFn, pinTempAmb, pinUmidAmb);
+  if(adc)
+  {
     
+    enviarSerial(pinSolar, pinTempIn, pinTempFn, pinTempAmb, pinUmidAmb);
+    
+  }
     /*adSolar   =   analogRead(pinSolar);     //valor de conversão AD do sensor solar 
     adTempIn  =  analogRead(pinTempIn);   //valor de conversão AD do sensor da temperatura inicial 
     adTempFn  =  analogRead(pinTempFn);   //valor de conversão AD do sensor da temperatura final
@@ -79,10 +83,8 @@ void serialEvent()
   }
 }
 
-void enviarSerial(bool sEvent, int one, int two, int three, int four, int five)
+void enviarSerial(int one, int two, int three, int four, int five)
 {
-  if(sEvent)
-  {
   int adOne = analogRead(one);
   int adTwo = analogRead(two);
   int adThree = analogRead(three);
@@ -95,5 +97,4 @@ void enviarSerial(bool sEvent, int one, int two, int three, int four, int five)
                                                   adOne, adTwo, adThree, adFour, adFive);
   Serial.print(ad_buffer);
   delay(300); 
-  }
 }

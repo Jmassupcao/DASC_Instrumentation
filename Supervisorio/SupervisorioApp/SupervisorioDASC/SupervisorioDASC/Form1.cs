@@ -23,6 +23,7 @@ namespace SupervisorioDASC
         List<string> dataList = new List<string>();
         String txt_List = string.Empty;
         int qtde_data = 0;
+        int qtde_data_ini = 0;
 
         String timeAquisicao;
         Double count;
@@ -232,7 +233,7 @@ namespace SupervisorioDASC
             qtde_data++; //indica a quantidade de linhas que serão salvas no arquivo
             
             //termina o experimento se o tempo do experimento for igual ou maior que a tempo estabelecido pel usuário
-            if( count >= duracao)
+            if( (count*1000) >= duracao)
             {
                 Serial.Write("FN000000\r"); //envia a mensagem de finalização para o arduino
                 tmrApp.Enabled = false; //para a contagem do tempo do timer
@@ -246,7 +247,7 @@ namespace SupervisorioDASC
                 btnFinalizar.Enabled = false;
             }
 
-            count += Convert.ToDouble(timeAquisicao)*1000; //incrementa a contagem do tempo para um novo ciclo
+            count += Convert.ToDouble(timeAquisicao); //incrementa a contagem do tempo para um novo ciclo
         }
      
         private void btnFinalizar_Click(object sender, EventArgs e)
@@ -257,13 +258,11 @@ namespace SupervisorioDASC
                 tmrApp.Enabled = false; //para a contagem do tempo do timer
                 timeAquisicao = string.Empty; //limpa a variável que informa o intervalo de tempo do timer
 
-                Serial.Close(); //termina a comunicação serial
-
-                btnOpen.Enabled = true;
-                btnClose.Enabled = false;
-                btnExit.Enabled = true;
-                btnIniciar.Enabled = false;
-                btnFinalizar.Enabled = false;
+                lblSolar.Text       = "0000";
+                lblTempInicial.Text = "0000";
+                lblTempFinal.Text   = "0000";
+                lblTempAmb.Text     = "0000";
+                lblUmidade.Text     = "0000";
             }
         }
 
@@ -274,8 +273,9 @@ namespace SupervisorioDASC
                 timeAquisicao = tbxTimeAquisicao.Text; //armazena o tempo de aquisição informado pelo usuário na variável 
                 count = Convert.ToDouble(timeAquisicao); //converte o valor para double, para fazer a contagem do tempo ao decorrer do esperimento
                 tmrApp.Interval = Int32.Parse(timeAquisicao) * 1000; //indica qual vai ser o intervalo do timer de acordo com o valor informado pelo usuário
-
                 duracao = Convert.ToDouble(tbxDuracao.Text) * 60000; ; //armazena o tempo de duracao do experimento informado pelo usuário em minutos convertendo ele para milisegundos
+
+                qtde_data_ini = qtde_data;
 
                 Serial.Write("IN000000\r"); //envia a mensagem de inicialização para o arduino
                 tmrApp.Enabled = true; //início da contagem do timer 
@@ -299,7 +299,7 @@ namespace SupervisorioDASC
                                                               "Temperatura Ambiente, Umidade Ambiente"); //escreve os labels de cada coluna na primeira linha
 
                     //escreve todos os dados armazenados na variável dataList
-                    for (int i = 0; i < qtde_data; i++)
+                    for (int i = qtde_data_ini; i < qtde_data; i++)
                         Arq.WriteLine(dataList[i]);
 
                     Arq.Close();
