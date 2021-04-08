@@ -15,11 +15,11 @@ char  ad_tempfn_buffer[9]; //varipavel para armazenar a string referente ao falo
 char ad_tempamb_buffer[9];//varipavel para armazenar a string referente ao falor da conversão AD do temperatura ambiente para comunicação serial
 char ad_umidamb_buffer[9];//varipavel para armazenar a string referente ao falor da conversão AD do umidade ambiente para comunicação serial
 
-int   pinSolar = 1;   //pino do conversor AD do sensor solar
-int  pinTempIn = 2;  //pino do conversor AD do sensor de temperatura inicial do DASC
-int  pinTempFn = 3;  //pino do conversor AD do sensor de temperatura final do DASC
-int pinTempAmb = 4; //pino do conversor AD do sensor de temperatura ambiente
-int pinUmidAmb = 5; //pino do conversor AD do sensor de umidade ambiente
+int   pinSolar = 0;   //pino do conversor AD do sensor solar
+int  pinTempIn = 1;  //pino do conversor AD do sensor de temperatura inicial do DASC
+int  pinTempFn = 2;  //pino do conversor AD do sensor de temperatura final do DASC
+int pinTempAmb = 3; //pino do conversor AD do sensor de temperatura ambiente
+int pinUmidAmb = 4; //pino do conversor AD do sensor de umidade ambiente
 
 void setup() {
   Serial.begin(9600);
@@ -42,15 +42,15 @@ void loop() {
     snprintf(ad_tempamb_buffer, sizeof(ad_tempamb_buffer), "DNO=%04d", adTempAmb);
     snprintf(ad_umidamb_buffer, sizeof(ad_umidamb_buffer), "ENO=%04d", adUmidAmb);
     
-    Serial.print("\r");
+    
     Serial.print(ad_solar_buffer);
-    Serial.print("\r");
+    delay(100);
     Serial.print(ad_tempin_buffer);
-    Serial.print("\r");
+    delay(100);
     Serial.print(ad_tempfn_buffer);
-    Serial.print("\r");
+    delay(100);
     Serial.print(ad_tempamb_buffer);
-    Serial.print("\r");
+    delay(100);
     Serial.print(ad_umidamb_buffer);
     delay(300);
   }
