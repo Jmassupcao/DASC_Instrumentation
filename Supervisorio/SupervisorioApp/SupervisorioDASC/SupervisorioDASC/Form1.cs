@@ -161,7 +161,6 @@ namespace SupervisorioDASC
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            Serial.Write("FN000000\r"); //envia a mensagem de finalização para o arduino
 
             Close();
         }
@@ -240,6 +239,11 @@ namespace SupervisorioDASC
                 timeAquisicao = string.Empty; //limpa a variável que informa o intervalo de tempo do timer
 
                 Serial.Close(); //termina a comunicação serial
+                btnOpen.Enabled = true;
+                btnClose.Enabled = false;
+                btnExit.Enabled = true;
+                btnIniciar.Enabled = false;
+                btnFinalizar.Enabled = false;
             }
 
             count += count; //incrementa a contagem do tempo para um novo ciclo
