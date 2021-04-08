@@ -246,7 +246,7 @@ namespace SupervisorioDASC
                 btnFinalizar.Enabled = false;
             }
 
-            count += count; //incrementa a contagem do tempo para um novo ciclo
+            count += Convert.ToDouble(timeAquisicao); //incrementa a contagem do tempo para um novo ciclo
         }
      
         private void btnFinalizar_Click(object sender, EventArgs e)
