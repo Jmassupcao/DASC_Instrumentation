@@ -227,9 +227,9 @@ namespace SupervisorioDASC
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(14, 30);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(248, 17);
+            this.label6.Size = new System.Drawing.Size(235, 17);
             this.label6.TabIndex = 18;
-            this.label6.Text = "Duração do Experimento (segundos) :";
+            this.label6.Text = "Duração do Experimento (minutos) :";
             // 
             // label14
             // 
@@ -383,19 +383,19 @@ namespace SupervisorioDASC
             // salvarToolStripMenuItem
             // 
             this.salvarToolStripMenuItem.Name = "salvarToolStripMenuItem";
-            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.salvarToolStripMenuItem.Size = new System.Drawing.Size(132, 26);
             this.salvarToolStripMenuItem.Text = "Salvar";
             this.salvarToolStripMenuItem.Click += new System.EventHandler(this.salvarToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(221, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(129, 6);
             // 
             // sairToolStripMenuItem
             // 
             this.sairToolStripMenuItem.Name = "sairToolStripMenuItem";
-            this.sairToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.sairToolStripMenuItem.Size = new System.Drawing.Size(132, 26);
             this.sairToolStripMenuItem.Text = "Sair";
             // 
             // svArquivo

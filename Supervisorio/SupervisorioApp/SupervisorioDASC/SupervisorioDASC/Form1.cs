@@ -22,10 +22,11 @@ namespace SupervisorioDASC
 
         List<string> dataList = new List<string>();
         String txt_List = string.Empty;
-        String timeAquisicao;
-        Double count;
         int qtde_data = 0;
 
+        String timeAquisicao;
+        Double count;
+        Double duracao;
         public Form1()
         {
             InitializeComponent();
@@ -104,6 +105,8 @@ namespace SupervisorioDASC
             btnOpen.Enabled = true;
             btnClose.Enabled = false;
             btnExit.Enabled = true;
+            btnIniciar.Enabled = false;
+            btnFinalizar.Enabled = false;
 
         }
 
@@ -123,6 +126,8 @@ namespace SupervisorioDASC
                 btnOpen.Enabled = false;
                 btnClose.Enabled = true;
                 btnExit.Enabled = false;
+                btnIniciar.Enabled = true;
+                btnFinalizar.Enabled = false;
             }
             catch
             {
@@ -134,24 +139,35 @@ namespace SupervisorioDASC
                 btnOpen.Enabled = true;
                 btnClose.Enabled = false;
                 btnExit.Enabled = false;
+                btnFinalizar.Enabled = false;
+                btnIniciar.Enabled = false;
+      
             }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
+            Serial.Write("FN000000\r"); //envia a mensagem de finalização para o arduino
+            tmrApp.Enabled = false; //para a contagem do tempo do timer
+            timeAquisicao = string.Empty; //limpa a variável que informa o intervalo de tempo do timer
+
             Serial.Close();
             btnOpen.Enabled = true;
             btnClose.Enabled = false;
             btnExit.Enabled = true;
+            btnIniciar.Enabled = false;
+            btnFinalizar.Enabled = false;
         }
 
         private void btnExit_Click(object sender, EventArgs e)
         {
+            Serial.Write("FN000000\r"); //envia a mensagem de finalização para o arduino
+
             Close();
         }
         private void Serial_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            RxString = Serial.ReadExisting();
+            RxString = Serial.ReadExisting(); //recebe as strings vindas do serial 
 
             //chama outra thread para escrever o dado em algum lugar do formulário
             this.Invoke(new EventHandler(TreatRecivedData));
@@ -210,21 +226,34 @@ namespace SupervisorioDASC
         private void tmrApp_Tick(object sender, EventArgs e)
         {
          
-            dataList.Add(Convert.ToString(count) + "," + txt_List);
+            dataList.Add(Convert.ToString(count) + "," + txt_List); //armazena o tempo do experimento de acordo com a variável count e tamabém 
+                                                                    //as informações recebidas do arduino e armazenada na string txt_List
             //Serial.Write(dataList[qtde_data]);
            
-            qtde_data++;
+            qtde_data++; //indica a quantidade de linhas que serão salvas no arquivo
+            
+            //termina o experimento se o tempo do experimento for igual ou maior que a tempo estabelecido pel usuário
+            if(count >= duracao)
+            {
+                Serial.Write("FN000000\r"); //envia a mensagem de finalização para o arduino
+                tmrApp.Enabled = false; //para a contagem do tempo do timer
+                timeAquisicao = string.Empty; //limpa a variável que informa o intervalo de tempo do timer
 
-            count += count;
+                Serial.Close(); //termina a comunicação serial
+            }
+
+            count += count; //incrementa a contagem do tempo para um novo ciclo
         }
      
         private void btnFinalizar_Click(object sender, EventArgs e)
         {
             if(Serial.IsOpen)
             {
-                Serial.Write("FN000000\r");
-                tmrApp.Enabled = false;
-                timeAquisicao = string.Empty;
+                Serial.Write("FN000000\r"); //envia a mensagem de finalização para o arduino
+                tmrApp.Enabled = false; //para a contagem do tempo do timer
+                timeAquisicao = string.Empty; //limpa a variável que informa o intervalo de tempo do timer
+
+                Serial.Close(); //termina a comunicação serial
             }
         }
 
@@ -236,8 +265,12 @@ namespace SupervisorioDASC
                 count = Convert.ToDouble(timeAquisicao); //converte o valor para double, para fazer a contagem do tempo ao decorrer do esperimento
                 tmrApp.Interval = Int32.Parse(timeAquisicao) * 1000; //indica qual vai ser o intervalo do timer de acordo com o valor informado pelo usuário
 
+                duracao = Convert.ToDouble(tbxDuracao.Text) * 60000; ; //armazena o tempo de duracao do experimento informado pelo usuário em minutos convertendo ele para milisegundos
+
                 Serial.Write("IN000000\r"); //envia a mensagem de inicialização para o arduino
                 tmrApp.Enabled = true; //início da contagem do timer 
+
+                btnFinalizar.Enabled = true;
             }
 
         }
