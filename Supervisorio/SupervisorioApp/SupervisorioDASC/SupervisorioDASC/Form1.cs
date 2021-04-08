@@ -160,11 +160,25 @@ namespace SupervisorioDASC
             btnFinalizar.Enabled = false;
         }
 
-        private void btnExit_Click(object sender, EventArgs e)
+        private void btnIniciar_Click(object sender, EventArgs e)
         {
+            if (Serial.IsOpen)
+            {
+                timeAquisicao = tbxTimeAquisicao.Text; //armazena o tempo de aquisição informado pelo usuário na variável 
+                count = Convert.ToDouble(timeAquisicao); //converte o valor para double, para fazer a contagem do tempo ao decorrer do esperimento
+                tmrApp.Interval = Int32.Parse(timeAquisicao) * 1000; //indica qual vai ser o intervalo do timer de acordo com o valor informado pelo usuário
+                duracao = Convert.ToDouble(tbxDuracao.Text) * 60000; ; //armazena o tempo de duracao do experimento informado pelo usuário em minutos convertendo ele para milisegundos
 
-            Close();
+                qtde_data_ini = qtde_data;
+               
+                Serial.Write("IN000000\r"); //envia a mensagem de inicialização para o arduino
+                tmrApp.Enabled = true; //início da contagem do timer 
+
+                btnFinalizar.Enabled = true;
+            }
+
         }
+
         private void Serial_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             RxString = Serial.ReadExisting(); //recebe as strings vindas do serial 
@@ -172,6 +186,7 @@ namespace SupervisorioDASC
             //chama outra thread para escrever o dado em algum lugar do formulário
             this.Invoke(new EventHandler(TreatRecivedData));
         }
+
         private void TreatRecivedData(object sender, EventArgs e)
         {
             string[] txtSplit; //variável para armazenar as partes da variável enviada pelo arduino
@@ -231,9 +246,11 @@ namespace SupervisorioDASC
             //Serial.Write(dataList[qtde_data]);
            
             qtde_data++; //indica a quantidade de linhas que serão salvas no arquivo
-            
+
+            count += Convert.ToDouble(timeAquisicao); //incrementa a contagem do tempo para um novo ciclo
+
             //termina o experimento se o tempo do experimento for igual ou maior que a tempo estabelecido pel usuário
-            if( (count*1000) >= duracao)
+            if ( ((count*1000) - count) >= duracao)
             {
                 Serial.Write("FN000000\r"); //envia a mensagem de finalização para o arduino
                 tmrApp.Enabled = false; //para a contagem do tempo do timer
@@ -247,7 +264,6 @@ namespace SupervisorioDASC
                 btnFinalizar.Enabled = false;
             }
 
-            count += Convert.ToDouble(timeAquisicao); //incrementa a contagem do tempo para um novo ciclo
         }
      
         private void btnFinalizar_Click(object sender, EventArgs e)
@@ -264,25 +280,6 @@ namespace SupervisorioDASC
                 lblTempAmb.Text     = "0000";
                 lblUmidade.Text     = "0000";
             }
-        }
-
-        private void btnIniciar_Click(object sender, EventArgs e)
-        {
-            if (Serial.IsOpen)
-            {
-                timeAquisicao = tbxTimeAquisicao.Text; //armazena o tempo de aquisição informado pelo usuário na variável 
-                count = Convert.ToDouble(timeAquisicao); //converte o valor para double, para fazer a contagem do tempo ao decorrer do esperimento
-                tmrApp.Interval = Int32.Parse(timeAquisicao) * 1000; //indica qual vai ser o intervalo do timer de acordo com o valor informado pelo usuário
-                duracao = Convert.ToDouble(tbxDuracao.Text) * 60000; ; //armazena o tempo de duracao do experimento informado pelo usuário em minutos convertendo ele para milisegundos
-
-                qtde_data_ini = qtde_data;
-
-                Serial.Write("IN000000\r"); //envia a mensagem de inicialização para o arduino
-                tmrApp.Enabled = true; //início da contagem do timer 
-
-                btnFinalizar.Enabled = true;
-            }
-
         }
 
         private void salvarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -311,6 +308,12 @@ namespace SupervisorioDASC
             {
                 MessageBox.Show(erro.ToString());
             }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+
+            Close();
         }
     }
 }
