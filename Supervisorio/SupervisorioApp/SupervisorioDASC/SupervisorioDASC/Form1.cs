@@ -232,7 +232,7 @@ namespace SupervisorioDASC
             qtde_data++; //indica a quantidade de linhas que serão salvas no arquivo
             
             //termina o experimento se o tempo do experimento for igual ou maior que a tempo estabelecido pel usuário
-            if(count >= duracao)
+            if( count >= duracao)
             {
                 Serial.Write("FN000000\r"); //envia a mensagem de finalização para o arduino
                 tmrApp.Enabled = false; //para a contagem do tempo do timer
@@ -246,7 +246,7 @@ namespace SupervisorioDASC
                 btnFinalizar.Enabled = false;
             }
 
-            count += Convert.ToDouble(timeAquisicao); //incrementa a contagem do tempo para um novo ciclo
+            count += Convert.ToDouble(timeAquisicao)*1000; //incrementa a contagem do tempo para um novo ciclo
         }
      
         private void btnFinalizar_Click(object sender, EventArgs e)
