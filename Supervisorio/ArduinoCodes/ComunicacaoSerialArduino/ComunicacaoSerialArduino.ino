@@ -1,4 +1,4 @@
-char rec[4]; //variável que irá receber os caracteres vindos da serial
+char rec[8]; //variável que irá receber os caracteres vindos da serial
 int i=0; //variável de controle para a variável rec
 
 /*int   adSolar;   //variável para armazenar o valor de conversão AD do sensor solar
@@ -83,7 +83,6 @@ void enviarSerial(bool sEvent, int one, int two, int three, int four, int five)
 {
   if(sEvent)
   {
-    Serial.print("entrou na funcao");
   int adOne = analogRead(one);
   int adTwo = analogRead(two);
   int adThree = analogRead(three);
