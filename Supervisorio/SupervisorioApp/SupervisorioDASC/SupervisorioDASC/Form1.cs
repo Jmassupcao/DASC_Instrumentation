@@ -28,6 +28,9 @@ namespace SupervisorioDASC
         String timeAquisicao;
         Double count;
         Double duracao;
+
+        String ad_buffer;
+
         public Form1()
         {
             InitializeComponent();
@@ -170,8 +173,11 @@ namespace SupervisorioDASC
                 duracao = Convert.ToDouble(tbxDuracao.Text) * 60000; ; //armazena o tempo de duracao do experimento informado pelo usuário em minutos convertendo ele para milisegundos
 
                 qtde_data_ini = qtde_data;
+
+                //formata a string que será enviada pela Serial de acordo com os set points informados 
+                ad_buffer = string.Format("IN:{0}:{1}:", tbxSetPointTemp.Text, tbxSetPointVM.Text); 
                
-                Serial.Write("IN000000\r"); //envia a mensagem de inicialização para o arduino
+                Serial.Write(ad_buffer+"\r"); //envia a mensagem de inicialização para o arduino
                 tmrApp.Enabled = true; //início da contagem do timer 
 
                 btnFinalizar.Enabled = true;
