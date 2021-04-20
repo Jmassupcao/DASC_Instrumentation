@@ -292,7 +292,7 @@ namespace SupervisorioDASC
                 {
                     Arq = File.AppendText(svArquivo.FileName); //indica o nome do arquivo
 
-                    Arq.WriteLine("Tempo, Intensidade Solar, Temperatura Inicial, Temperatura Final, " +
+                    Arq.WriteLine("Tempo(s), Intensidade Solar, Temperatura Inicial, Temperatura Final, " +
                                                               "Temperatura Ambiente, Umidade Ambiente"); //escreve os labels de cada coluna na primeira linha
 
                     //escreve todos os dados armazenados na variável dataList
