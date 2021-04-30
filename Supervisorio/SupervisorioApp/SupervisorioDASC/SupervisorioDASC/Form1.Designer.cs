@@ -42,6 +42,10 @@ namespace SupervisorioDASC
             this.btnExit = new System.Windows.Forms.Button();
             this.Serial = new System.IO.Ports.SerialPort(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblSetPointVazao = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lblSetPointTemp = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.tbxSetPointVM = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.tbxSetPointTemp = new System.Windows.Forms.TextBox();
@@ -62,7 +66,6 @@ namespace SupervisorioDASC
             this.lblTempFinal = new System.Windows.Forms.Label();
             this.lblTempInicial = new System.Windows.Forms.Label();
             this.lblSolar = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tmrApp = new System.Windows.Forms.Timer(this.components);
             this.mnApp = new System.Windows.Forms.MenuStrip();
             this.arquivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,14 +73,11 @@ namespace SupervisorioDASC
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.svArquivo = new System.Windows.Forms.SaveFileDialog();
-            this.label15 = new System.Windows.Forms.Label();
-            this.lblSetPointTemp = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.lblSetPointVazao = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.mnApp.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -88,7 +88,7 @@ namespace SupervisorioDASC
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(17, 48);
+            this.groupBox1.Location = new System.Drawing.Point(12, 49);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(308, 108);
             this.groupBox1.TabIndex = 0;
@@ -150,7 +150,7 @@ namespace SupervisorioDASC
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(331, 109);
+            this.btnClose.Location = new System.Drawing.Point(326, 110);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(98, 36);
             this.btnClose.TabIndex = 1;
@@ -160,7 +160,7 @@ namespace SupervisorioDASC
             // 
             // btnOpen
             // 
-            this.btnOpen.Location = new System.Drawing.Point(331, 71);
+            this.btnOpen.Location = new System.Drawing.Point(326, 72);
             this.btnOpen.Name = "btnOpen";
             this.btnOpen.Size = new System.Drawing.Size(98, 36);
             this.btnOpen.TabIndex = 2;
@@ -170,7 +170,7 @@ namespace SupervisorioDASC
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(691, 477);
+            this.btnExit.Location = new System.Drawing.Point(741, 527);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(98, 32);
             this.btnExit.TabIndex = 3;
@@ -208,12 +208,50 @@ namespace SupervisorioDASC
             this.groupBox2.Controls.Add(this.lblTempFinal);
             this.groupBox2.Controls.Add(this.lblTempInicial);
             this.groupBox2.Controls.Add(this.lblSolar);
-            this.groupBox2.Location = new System.Drawing.Point(17, 161);
+            this.groupBox2.Location = new System.Drawing.Point(12, 211);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(634, 348);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Experimento";
+            // 
+            // lblSetPointVazao
+            // 
+            this.lblSetPointVazao.AutoSize = true;
+            this.lblSetPointVazao.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSetPointVazao.Location = new System.Drawing.Point(471, 283);
+            this.lblSetPointVazao.Name = "lblSetPointVazao";
+            this.lblSetPointVazao.Size = new System.Drawing.Size(141, 58);
+            this.lblSetPointVazao.TabIndex = 29;
+            this.lblSetPointVazao.Text = "0000";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(478, 266);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(113, 17);
+            this.label17.TabIndex = 28;
+            this.label17.Text = "Set Point Vazão:";
+            // 
+            // lblSetPointTemp
+            // 
+            this.lblSetPointTemp.AutoSize = true;
+            this.lblSetPointTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSetPointTemp.Location = new System.Drawing.Point(304, 283);
+            this.lblSetPointTemp.Name = "lblSetPointTemp";
+            this.lblSetPointTemp.Size = new System.Drawing.Size(141, 58);
+            this.lblSetPointTemp.TabIndex = 27;
+            this.lblSetPointTemp.Text = "0000";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(311, 266);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(151, 17);
+            this.label15.TabIndex = 26;
+            this.label15.Text = "Set Point Temperaura:";
             // 
             // tbxSetPointVM
             // 
@@ -394,15 +432,6 @@ namespace SupervisorioDASC
             this.lblSolar.TabIndex = 6;
             this.lblSolar.Text = "0000";
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::SupervisorioDASC.Properties.Resources.poliUpe;
-            this.pictureBox1.Location = new System.Drawing.Point(446, 32);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(343, 124);
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
-            // 
             // tmrApp
             // 
             this.tmrApp.Tick += new System.EventHandler(this.tmrApp_Tick);
@@ -414,7 +443,7 @@ namespace SupervisorioDASC
             this.arquivoToolStripMenuItem});
             this.mnApp.Location = new System.Drawing.Point(0, 0);
             this.mnApp.Name = "mnApp";
-            this.mnApp.Size = new System.Drawing.Size(814, 28);
+            this.mnApp.Size = new System.Drawing.Size(883, 28);
             this.mnApp.TabIndex = 6;
             this.mnApp.Text = "menuStrip1";
             // 
@@ -452,49 +481,20 @@ namespace SupervisorioDASC
             this.svArquivo.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             this.svArquivo.Title = "Salvar Arquivo";
             // 
-            // label15
+            // pictureBox1
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(311, 266);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(151, 17);
-            this.label15.TabIndex = 26;
-            this.label15.Text = "Set Point Temperaura:";
-            // 
-            // lblSetPointTemp
-            // 
-            this.lblSetPointTemp.AutoSize = true;
-            this.lblSetPointTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSetPointTemp.Location = new System.Drawing.Point(304, 283);
-            this.lblSetPointTemp.Name = "lblSetPointTemp";
-            this.lblSetPointTemp.Size = new System.Drawing.Size(141, 58);
-            this.lblSetPointTemp.TabIndex = 27;
-            this.lblSetPointTemp.Text = "0000";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(478, 266);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(113, 17);
-            this.label17.TabIndex = 28;
-            this.label17.Text = "Set Point Vazão:";
-            // 
-            // lblSetPointVazao
-            // 
-            this.lblSetPointVazao.AutoSize = true;
-            this.lblSetPointVazao.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSetPointVazao.Location = new System.Drawing.Point(471, 283);
-            this.lblSetPointVazao.Name = "lblSetPointVazao";
-            this.lblSetPointVazao.Size = new System.Drawing.Size(141, 58);
-            this.lblSetPointVazao.TabIndex = 29;
-            this.lblSetPointVazao.Text = "0000";
+            this.pictureBox1.Image = global::SupervisorioDASC.Properties.Resources.poliUpe;
+            this.pictureBox1.Location = new System.Drawing.Point(461, 31);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(701, 174);
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(814, 521);
+            this.ClientSize = new System.Drawing.Size(883, 571);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnExit);
@@ -510,9 +510,9 @@ namespace SupervisorioDASC
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.mnApp.ResumeLayout(false);
             this.mnApp.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

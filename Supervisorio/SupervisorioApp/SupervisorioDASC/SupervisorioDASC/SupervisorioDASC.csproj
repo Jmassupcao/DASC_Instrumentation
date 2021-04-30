@@ -83,5 +83,8 @@
   <ItemGroup>
     <None Include="Resources\poliUpe.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logo-upe-site.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
