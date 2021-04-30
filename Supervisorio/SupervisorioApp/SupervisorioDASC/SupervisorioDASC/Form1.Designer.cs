@@ -42,6 +42,8 @@ namespace SupervisorioDASC
             this.btnExit = new System.Windows.Forms.Button();
             this.Serial = new System.IO.Ports.SerialPort(this.components);
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.tbxSetPointVM = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.tbxSetPointTemp = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -68,8 +70,10 @@ namespace SupervisorioDASC
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.svArquivo = new System.Windows.Forms.SaveFileDialog();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tbxSetPointVM = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.lblSetPointTemp = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lblSetPointVazao = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -180,6 +184,10 @@ namespace SupervisorioDASC
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.lblSetPointVazao);
+            this.groupBox2.Controls.Add(this.label17);
+            this.groupBox2.Controls.Add(this.lblSetPointTemp);
+            this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.tbxSetPointVM);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.tbxSetPointTemp);
@@ -200,12 +208,28 @@ namespace SupervisorioDASC
             this.groupBox2.Controls.Add(this.lblTempFinal);
             this.groupBox2.Controls.Add(this.lblTempInicial);
             this.groupBox2.Controls.Add(this.lblSolar);
-            this.groupBox2.Location = new System.Drawing.Point(17, 158);
+            this.groupBox2.Location = new System.Drawing.Point(17, 161);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(605, 351);
+            this.groupBox2.Size = new System.Drawing.Size(634, 348);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Experimento";
+            // 
+            // tbxSetPointVM
+            // 
+            this.tbxSetPointVM.Location = new System.Drawing.Point(268, 133);
+            this.tbxSetPointVM.Name = "tbxSetPointVM";
+            this.tbxSetPointVM.Size = new System.Drawing.Size(100, 22);
+            this.tbxSetPointVM.TabIndex = 25;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(19, 138);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(226, 17);
+            this.label9.TabIndex = 24;
+            this.label9.Text = "Set Point Vazão do moto (ml/min): ";
             // 
             // tbxSetPointTemp
             // 
@@ -390,7 +414,7 @@ namespace SupervisorioDASC
             this.arquivoToolStripMenuItem});
             this.mnApp.Location = new System.Drawing.Point(0, 0);
             this.mnApp.Name = "mnApp";
-            this.mnApp.Size = new System.Drawing.Size(814, 30);
+            this.mnApp.Size = new System.Drawing.Size(814, 28);
             this.mnApp.TabIndex = 6;
             this.mnApp.Text = "menuStrip1";
             // 
@@ -401,7 +425,7 @@ namespace SupervisorioDASC
             this.toolStripMenuItem1,
             this.sairToolStripMenuItem});
             this.arquivoToolStripMenuItem.Name = "arquivoToolStripMenuItem";
-            this.arquivoToolStripMenuItem.Size = new System.Drawing.Size(75, 26);
+            this.arquivoToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.arquivoToolStripMenuItem.Text = "Arquivo";
             // 
             // salvarToolStripMenuItem
@@ -428,21 +452,43 @@ namespace SupervisorioDASC
             this.svArquivo.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             this.svArquivo.Title = "Salvar Arquivo";
             // 
-            // label9
+            // label15
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(19, 138);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(226, 17);
-            this.label9.TabIndex = 24;
-            this.label9.Text = "Set Point Vazão do moto (ml/min): ";
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(311, 266);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(151, 17);
+            this.label15.TabIndex = 26;
+            this.label15.Text = "Set Point Temperaura:";
             // 
-            // tbxSetPointVM
+            // lblSetPointTemp
             // 
-            this.tbxSetPointVM.Location = new System.Drawing.Point(268, 133);
-            this.tbxSetPointVM.Name = "tbxSetPointVM";
-            this.tbxSetPointVM.Size = new System.Drawing.Size(100, 22);
-            this.tbxSetPointVM.TabIndex = 25;
+            this.lblSetPointTemp.AutoSize = true;
+            this.lblSetPointTemp.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSetPointTemp.Location = new System.Drawing.Point(304, 283);
+            this.lblSetPointTemp.Name = "lblSetPointTemp";
+            this.lblSetPointTemp.Size = new System.Drawing.Size(141, 58);
+            this.lblSetPointTemp.TabIndex = 27;
+            this.lblSetPointTemp.Text = "0000";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(478, 266);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(113, 17);
+            this.label17.TabIndex = 28;
+            this.label17.Text = "Set Point Vazão:";
+            // 
+            // lblSetPointVazao
+            // 
+            this.lblSetPointVazao.AutoSize = true;
+            this.lblSetPointVazao.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSetPointVazao.Location = new System.Drawing.Point(471, 283);
+            this.lblSetPointVazao.Name = "lblSetPointVazao";
+            this.lblSetPointVazao.Size = new System.Drawing.Size(141, 58);
+            this.lblSetPointVazao.TabIndex = 29;
+            this.lblSetPointVazao.Text = "0000";
             // 
             // Form1
             // 
@@ -514,6 +560,10 @@ namespace SupervisorioDASC
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox tbxSetPointVM;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblSetPointVazao;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lblSetPointTemp;
+        private System.Windows.Forms.Label label15;
     }
 }
 

@@ -198,7 +198,7 @@ namespace SupervisorioDASC
             string[] txtSplit; //variável para armazenar as partes da variável enviada pelo arduino
             txt_Rec += RxString; //armazena as strings que chegam na serial na variável txt_rec
             
-            if(txt_Rec.Length >= 45) //confere se a variável tem 45 caractéres ou mais
+            if(txt_Rec.Length >= 63) //confere se a variável tem 45 caractéres ou mais
             {
                 txtSplit = txt_Rec.Split(':'); //divide os caracteres tendo como referencia ':'
                 txt_Rec = string.Empty;
@@ -206,41 +206,19 @@ namespace SupervisorioDASC
                 if (txtSplit[0] == "AN0") //verifica se o primeiro grupo de caractere começa com 'ANO'
                 {
                     txt_List = txtSplit[1] + ',' + txtSplit[3] + ',' + txtSplit[5] + 
-                                              ',' + txtSplit[7] + ',' + txtSplit[9]; //Armazena as informações recebidas em uma variável que vai ser salva num arquivo txt
+                                              ',' + txtSplit[7] + ',' + txtSplit[9] + 
+                                              ',' + txtSplit[11] + ',' + txtSplit[13]; //Armazena as informações recebidas em uma variável que vai ser salva num arquivo txt
 
                     //escreve as informações recebidas pelo arduino nos labels do supervisório
-                    lblSolar.Text       = txtSplit[1];
-                    lblTempInicial.Text = txtSplit[3];
-                    lblTempFinal.Text   = txtSplit[5];
-                    lblTempAmb.Text     = txtSplit[7];
-                    lblUmidade.Text     = txtSplit[9];
+                    lblSolar.Text         = txtSplit[1];
+                    lblTempInicial.Text   = txtSplit[3];
+                    lblTempFinal.Text     = txtSplit[5];
+                    lblTempAmb.Text       = txtSplit[7];
+                    lblUmidade.Text       = txtSplit[9];
+                    lblSetPointTemp.Text  = txtSplit[11];
+                    lblSetPointVazao.Text = txtSplit[13];
                 }
                     
-                /*switch(txt_Rec.Substring(0,1))
-                {
-                    case "A":
-                        lblSolar.Text = txt_Rec.Substring(4, 4);
-                        txt_List = txt_Rec.Substring(4, 4);
-                        break;
-                    case "B":
-                        lblTempInicial.Text = txt_Rec.Substring(4, 4);
-                        txt_List += ", " + txt_Rec.Substring(4, 4);
-                        break;
-                    case "C":
-                        lblTempFinal.Text = txt_Rec.Substring(4, 4);
-                        txt_List += ", " + txt_Rec.Substring(4, 4);
-                        break;
-                    case "D":
-                        lblTempAmb.Text = txt_Rec.Substring(4, 4);
-                        txt_List += ", " + txt_Rec.Substring(4, 4);
-                        break;
-                    case "E":
-                        lblUmidade.Text = txt_Rec.Substring(4, 4);
-                        txt_List += ", " + txt_Rec.Substring(4, 4);
-                        break;
-                }
-                
-                txt_Rec = string.Empty;*/
             }
         }
 
@@ -268,6 +246,14 @@ namespace SupervisorioDASC
                 btnExit.Enabled = true;
                 btnIniciar.Enabled = false;
                 btnFinalizar.Enabled = false;
+
+                lblSolar.Text = "0000";
+                lblTempInicial.Text = "0000";
+                lblTempFinal.Text = "0000";
+                lblTempAmb.Text = "0000";
+                lblUmidade.Text = "0000";
+                lblSetPointTemp.Text = "0000";
+                lblSetPointVazao.Text = "0000";
             }
 
         }
@@ -280,11 +266,13 @@ namespace SupervisorioDASC
                 tmrApp.Enabled = false; //para a contagem do tempo do timer
                 timeAquisicao = string.Empty; //limpa a variável que informa o intervalo de tempo do timer
 
-                lblSolar.Text       = "0000";
-                lblTempInicial.Text = "0000";
-                lblTempFinal.Text   = "0000";
-                lblTempAmb.Text     = "0000";
-                lblUmidade.Text     = "0000";
+                lblSolar.Text         = "0000";
+                lblTempInicial.Text   = "0000";
+                lblTempFinal.Text     = "0000";
+                lblTempAmb.Text       = "0000";
+                lblUmidade.Text       = "0000";
+                lblSetPointTemp.Text  = "0000";
+                lblSetPointVazao.Text = "0000";
             }
         }
 
@@ -299,7 +287,8 @@ namespace SupervisorioDASC
                     Arq = File.AppendText(svArquivo.FileName); //indica o nome do arquivo
 
                     Arq.WriteLine("Tempo(s), Intensidade Solar, Temperatura Inicial, Temperatura Final, " +
-                                                              "Temperatura Ambiente, Umidade Ambiente"); //escreve os labels de cada coluna na primeira linha
+                                                              "Temperatura Ambiente, Umidade Ambiente," +
+                                                              " Set Point da Temperatura, Set Point da Vazão"); //escreve os labels de cada coluna na primeira linha
 
                     //escreve todos os dados armazenados na variável dataList
                     for (int i = qtde_data_ini; i < qtde_data; i++)
