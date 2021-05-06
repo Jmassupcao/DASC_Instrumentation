@@ -1,44 +1,208 @@
+//#include  <LiquidCrystal.h>         // Inclui a biblioteca para utilizar o LCD.
+#include <OneWire.h>
+#include <DallasTemperature.h>
+
+//================================ Mapeamento de Hardware ============================//
+//LiquidCrystal LCD (12, 11, 5, 4, 3, 2); //Esta função declara quais os pinos do Arduino serão utilizados para o controle do LCD 
+#define SensorLM35 A0 //Pino o qual o sensor está conectado
+ 
+#define Sensor 13  // Define o pino 13 como “sensor na saída do coletor”
+DeviceAddress SensorEntrada = { 0x28, 0xAA, 0xBE, 0x24, 0x54, 0x14, 0x01, 0x72 }; //Define como sensor1 o sensor desse código
+DeviceAddress SensorSaida = { 0x28, 0x31, 0x1A, 0x88, 0x13, 0x19, 0x01, 0x6E }; //Define como sensor2 o sensor desse código
+
+//#define SensorEntrada 12  // Define o pino 12 como “sensor na entrada do coletro”
+//#define PotenciometroAjustetemp 1 //Ajuste do setpoint da temperatura
+//#define Rele_Peltier 6
+
+#define pinEnableMotorA 11      //Porta Digital PWM~
+#define pinEnableMotorB 10     //Porta Digital PWM~
+
+#define pinSentido1MotorA 3
+#define pinSentido2MotorA 2
+
+
+#define pinSentido1MotorB 7
+#define pinSentido2MotorB 6
+
+
+OneWire oneWire(Sensor);//cria primeiramente um objeto referente ao o pino que será utilizado para transmissão de dados.
+DallasTemperature sensors(&oneWire);//objeto que será responsável por representar o barramento de sensores no código
+int valor = 0;
+int valor3 = 0;
+
+//=========================== Declarando Variáveis Globais =========================//
+float Constante = 17.05;// Constante para estabelecer a faixa de temperatura de 0 à 60 Graus ==> 1023/60 = 17.05
+float  temperatura; // Variável que recebe o valor convertido para temperatura.
+int ValorAjustado = 0;
+
+
+boolean adc; //variável de iniciação do códgo, muda para true quando recebe o comando do serial 
 char rec[100]; //variável que irá receber os caracteres vindos da serial
 int i=0; //variável de controle para a variável rec
 
-boolean adc; //variável de controle do conversor AD
 
-int   pinSolar = 0;   //pino do conversor AD do sensor solar
-int  pinTempIn = 1;  //pino do conversor AD do sensor de temperatura inicial do DASC
-int  pinTempFn = 2;  //pino do conversor AD do sensor de temperatura final do DASC
-int pinTempAmb = 3; //pino do conversor AD do sensor de temperatura ambiente
-int pinUmidAmb = 4; //pino do conversor AD do sensor de umidade ambiente
+int  pinSolar = 0;   //pino do conversor AD do sensor solar
+//int  pintempIn = 1;  //pino do conversor AD do sensor de temperatura inicial do DASC
+//int  pintempFn = 2;  //pino do conversor AD do sensor de temperatura final do DASC
+//int  pintempAmb = 3; //pino do conversor AD do sensor de temperatura ambiente
+int  pinUmidAmb = 4; //pino do conversor AD do sensor de umidade ambiente
 
-int pinPeltier = 3; //pino usado para o controle da placa peltier
+//int pinPeltier = 3; //pino usado para o controle da placa peltier
 int pinMotor   = 5; //pino usado para o controle da bomba peristáltica 
 
-String setPointTemp; //variável para amarzenar o set poit da temperatura da célula peltier
-String   setPointVM; //variável para amarzenar o set point da vazão do moto 
+String   setPointtemp; //variável para amarzenar o set poit da temperatura da célula peltier
+String   setPointVM;   //variável para amarzenar o set point da vazão do moto 
 bool stringFlag = true;
-int showSPTemp;
+int showSPtemp;
 int showSPVM;
 
 
 void setup() {
   Serial.begin(9600);
-  pinMode(pinPeltier, OUTPUT);
+
+  pinMode(SensorLM35, INPUT);//Define como Entrada o Sensor ambiente
+
+  pinMode(pinEnableMotorA, OUTPUT);
+  pinMode(pinEnableMotorB, OUTPUT);
+
+  pinMode(pinSentido1MotorA, OUTPUT);
+  pinMode(pinSentido2MotorA, OUTPUT);
+  pinMode(pinSentido1MotorB, OUTPUT);
+  pinMode(pinSentido2MotorB, OUTPUT);
+
+  
+  //pinMode(pinPeltier, OUTPUT);
   pinMode(pinMotor, OUTPUT);
+  
+  sensors.setResolution(SensorEntrada, 10);
+  sensors.setResolution(SensorSaida, 10);
+
 }
 
 void loop() {
 
-  if(adc)
-  {
-    showSPTemp = setPointTemp.toInt();
+  //espera até que a variável adc mude para true
+  if(adc){
+    /*******************************************************************************************************  
+    -------Converte os valores de Set Point da bomba peristaltica e da placa peltier para Inteiro-----------
+    *******************************************************************************************************/
+    showSPtemp = setPointtemp.toInt();
     showSPVM = setPointVM.toInt();
     
-    enviarSerial(pinSolar, pinTempIn, pinTempFn, pinTempAmb, pinUmidAmb,showSPTemp, showSPVM);
-    analogWrite(pinPeltier, setPointTemp.toInt());
-    analogWrite(pinMotor, setPointVM.toInt());
+    /*******************************************************************************************************  
+    ------------------------------função do programa: verificar a temperatura Ambiente-------------------
+    *******************************************************************************************************/
+    float valor_analog_SensorLM35 = float(analogRead(SensorLM35)); // Obtém o valor analógico que varia de 0 a 1023
+    float tensao = (valor_analog_SensorLM35 * 5) / 1023;           // Converter esse valor para tensão elétrica((5/tensão) =  (1023/Valor analog))
+    float tempAmbiente = tensao / 0.010;                           // dividimos a tensão por 0.010 que representa os 10 mV
+
+    //Serial.print("temperatura Ambiente : ");
+    //Serial.println(tempAmbiente); // Mostra na serial a temperatura do sensor
+
+    delay(500);
+
+    /*******************************************************************************************************
+    ------------------------------função do programa:Setpoint-------------------
+    *******************************************************************************************************/
+    valor = showSPtemp; //valor do set point da temperatura para controlar a saída em PWM
+    valor = map(valor, 0, 1023, 0, 255);
+
+    ValorAjustado = showSPtemp / Constante;
+    Serial.print("Setpoint : ");
+    Serial.print(ValorAjustado);
+    Serial.println();
+    delay(500);
+
+    /*******************************************************************************************************
+    ------------------------------função do programa: Sensor(Saída) Temperatura DS18B20-------------------
+    *******************************************************************************************************/
+    sensors.requestTemperatures();
+    delay(100);
+    float temp = sensors.getTempCByIndex(SensorSaida); //Obtem o valor do sensor de Saída
+    String temperatura = String(temp);
+    valor = map(valor, 0, 1023, 0, 255);
+    //Serial.print(temperatura);
+    if (temperatura == "-127.00") // acho de depois posso tirar
+    {
+      // do nothing
+    }
+    else
+    {
+      Serial.print("Temperature do NanoFluido(Saída) : ");
+      //Serial.println(sensors.getTempCByIndex(0));
+      Serial.print(temperatura);
+      Serial.println();
+      delay(500);
+    }
+    int Temperature = temp;
+
+    if (Temperature >= ValorAjustado)
+    {
+      //digitalWrite(Rele_Peltier, HIGH);
+      int valor2 = 255;
+      //int valor2 = 6*valor;//Fazer uma equação para colocar a tensão idela na saída da ponte H
+      analogWrite(pinEnableMotorB, valor2); //Valor do PWM no MOTOR
+      digitalWrite(pinSentido1MotorB, LOW); //Ativa o sentido para refrigerar
+      digitalWrite(pinSentido2MotorB, HIGH);
+      delay(1000);
+    }
+    if (Temperature <= (ValorAjustado - 2))
+    {
+      analogWrite(pinEnableMotorB, 0);
+    }
+
+    /*******************************************************************************************************
+    ------------------------------função do programa: Sensor(Entrada) Temperatura DS18B20-------------------
+    *******************************************************************************************************/
+    sensors.requestTemperatures();
+    delay(100);
+    float temp2 = sensors.getTempCByIndex(SensorEntrada); //Obtem o valor do sensor de entrada
+    String temperatura2 = String(temp2);
+    valor3 = map(valor, 0, 1023, 0, 255);
+    //Serial.print(temperatura);
+    if (temperatura2 == "-127.00") // acho de depois posso tirar
+    {
+      // do nothing
+    }
+    else
+    {
+      Serial.print("Temperatura do NanoFluido (Entrada) : ");
+      //Serial.println(sensors.getTempCByIndex(0));
+      Serial.print(temperatura2);
+      Serial.println();
+      delay(500);
+    }
+    int Temperature2 = temp2;
+
+    if (Temperature2 <= ValorAjustado)
+    {
+      //digitalWrite(Rele_Peltier, HIGH);
+      int valor2 = 255;
+      //int valor2 = 6*valor;//Fazer uma equação para colocar a tensão idela na saída da ponte H
+      analogWrite(pinEnableMotorA, valor2); //Valor do PWM no MOTOR
+      digitalWrite(pinSentido1MotorA, LOW); //Ativa o sentido para refrigerar
+      digitalWrite(pinSentido2MotorA, HIGH);
+      delay(1000);
+    }
+    if (Temperature2 >= (ValorAjustado + 2))
+    {
+      analogWrite(pinEnableMotorA, 0);
+    }
+    
+    /*******************************************************************************************************
+    ------------------------------Enviando as informações para a serial------------------------------------
+    *******************************************************************************************************/
+    
+    enviarSerial(pinSolar, temp2, temp, tempAmbiente, pinUmidAmb,showSPtemp, showSPVM);
+
+
   }
     
 }
 
+/*******************************************************************************************************
+-----------------Evento que espera a comunicação com o serial e trata o dado recebido-------------------
+*******************************************************************************************************/
 void serialEvent()
 {
   while(Serial.available())
@@ -59,7 +223,7 @@ void serialEvent()
          {
             if((rec[a] != ':') && (stringFlag)) //enquanto a string recebida for diferente de ':' o valor é referente ao set point da temperatura 
             {
-              setPointTemp += rec[a]; //armazena o valor do set point da temperatura no formato string
+              setPointtemp += rec[a]; //armazena o valor do set point da temperatura no formato string
             }
             else //caso o valor recebido seja ":" os próximos bytes seram referentes ao set point da Vazão do motor 
             {
@@ -84,11 +248,12 @@ void serialEvent()
         adc = false; //Muda para falso a variável de iniciação 
 
         //limpa as variáveis de set point 
-        setPointTemp = "";
+        setPointtemp = "";
         setPointVM   = "";
 
         //desliga os componentes ativos do DASC
-        analogWrite(pinPeltier, 0);
+        analogWrite(pinEnableMotorA, 0);
+        analogWrite(pinEnableMotorB, 0);
         analogWrite(pinMotor, 0);
       }
         
@@ -99,18 +264,22 @@ void serialEvent()
   }
 }
 
-void enviarSerial(int one, int two, int three, int four, int five, int six, int seven)
+/*******************************************************************************************************
+-----------------Função de envio das informações do arduino para o supervisório-------------------------
+*******************************************************************************************************/
+
+void enviarSerial(int one, float two, float three, float four, int five, int six, int seven)
 {
   int adOne = analogRead(one);
-  int adTwo = analogRead(two);
-  int adThree = analogRead(three);
-  int adFour = analogRead(four);
+  //int adTwo = analogRead(two);
+  //int adThree = analogRead(three);
+  //int adFour = analogRead(four);
   int adFive = analogRead(five);
 
   char ad_buffer[64];
 
   snprintf(ad_buffer, sizeof(ad_buffer), "AN0:%04d:BN0:%04d:CN0:%04d:DN0:%04d:EN0:%04d:FN0:%04d:GN0:%04d:", 
-                                                  adOne, adTwo, adThree, adFour, adFive, six, seven);
+                                                  adOne, two, three, four, adFive, six, seven);
   Serial.print(ad_buffer);
   delay(300); 
 }
