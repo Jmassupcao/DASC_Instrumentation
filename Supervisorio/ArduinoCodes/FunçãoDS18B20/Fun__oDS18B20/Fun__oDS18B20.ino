@@ -93,10 +93,10 @@ void setup() {
     *******************************************************************************************************/
 void peltier(DeviceAddress Sensor,int estado, int pinEnableMotor,int pinSentido1Motor, int pinSentido2Motor, int ValorSetPoint)
 {
-    sensors.requestTemperatures();
-    delay(100);
-    float temp = sensors.getTempCByIndex(Sensor); //Obtem o valor do sensor
-    String temperatura = String(temp);
+      sensors.requestTemperatures();
+      delay(100);
+      float temp = sensors.getTempCByIndex(Sensor); //Obtem o valor do sensor
+      String temperatura = String(temp);
     int valor = map(valor, 0, 1023, 0, 255);
     //Serial.print(temperatura);
     if (temperatura == "-127.00") // acho de depois posso tirar

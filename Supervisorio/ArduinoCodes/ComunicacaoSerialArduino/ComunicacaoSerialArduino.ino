@@ -7,8 +7,12 @@
 #define SensorLM35 A0 //Pino o qual o sensor está conectado
  
 #define Sensor 13  // Define o pino 13 como “sensor na saída do coletor”
-DeviceAddress SensorEntrada = { 0x28, 0xAA, 0xBE, 0x24, 0x54, 0x14, 0x01, 0x72 }; //Define como sensor1 o sensor desse código
-DeviceAddress SensorSaida = { 0x28, 0x31, 0x1A, 0x88, 0x13, 0x19, 0x01, 0x6E }; //Define como sensor2 o sensor desse código
+//DeviceAddress SensorEntrada = { 0x28, 0xAA, 0xBE, 0x24, 0x54, 0x14, 0x01, 0x72 }; //Define como sensor1 o sensor desse código
+//DeviceAddress SensorSaida = { 0x28, 0x31, 0x1A, 0x88, 0x13, 0x19, 0x01, 0x6E }; //Define como sensor2 o sensor desse código
+
+uint8_t sensorEntrada[8] = { 0x28, 0xAA, 0xBE, 0x24, 0x54, 0x14, 0x01, 0x72 }; //Define como sensor1 o sensor desse código
+uint8_t sensorSaida[8] = { 0x28, 0x31, 0x1A, 0x88, 0x13, 0x19, 0x01, 0x6E }; //Define como sensor2 o sensor desse código
+
 
 //#define SensorEntrada 12  // Define o pino 12 como “sensor na entrada do coletro”
 //#define PotenciometroAjustetemp 1 //Ajuste do setpoint da temperatura
@@ -82,11 +86,11 @@ void setup() {
 
   sensors.begin();
   
-  sensors.setResolution(SensorEntrada, 10);
+  /*sensors.setResolution(SensorEntrada, 10);
   sensors.setResolution(SensorSaida, 10);
 
   sensors.getAddress(SensorEntrada, 0);
-  sensors.getAddress(SensorEntrada, 1);
+  sensors.getAddress(SensorEntrada, 1);*/
 
 }
 
@@ -94,7 +98,7 @@ void loop() {
   
  
   //espera até que a variável adc mude para true
-  if(adc){
+  if(true){
 
         /*******************************************************************************************************  
     -------Converte os valores de Set Point da bomba peristaltica e da placa peltier para Inteiro-----------
@@ -134,7 +138,7 @@ void loop() {
     *******************************************************************************************************/
     sensors.requestTemperatures();
     delay(100);
-    temp2 = sensors.getTempCByIndex(SensorEntrada); //Obtem o valor do sensor de entrada
+    float temp2 = printTemperature(sensorEntrada); //Obtem o valor do sensor de entrada
     String temperatura2 = String(temp2);
     valor3 = map(valor, 0, 1023, 0, 255);
     //Serial.print(temperatura);
@@ -174,7 +178,7 @@ void loop() {
   
     sensors.requestTemperatures();
     delay(100);
-    float temp = sensors.getTempCByIndex(SensorSaida); //Obtem o valor do sensor de Saída
+    float temp = printTemperature(sensorSaida); //Obtem o valor do sensor de Saída
     String temperatura = String(temp);
     valor = map(valor, 0, 1023, 0, 255);
     //Serial.print(temperatura);
@@ -208,43 +212,6 @@ void loop() {
       analogWrite(pinEnableMotorB, 0);
     }
 
-    /*******************************************************************************************************
-    ------------------------------função do programa: Sensor(Entrada) Temperatura DS18B20-------------------
-    *******************************************************************************************************/
-    sensors.requestTemperatures();
-    delay(100);
-    temp2 = sensors.getTempCByIndex(SensorEntrada); //Obtem o valor do sensor de entrada
-    temperatura2 = String(temp2);
-    valor3 = map(valor, 0, 1023, 0, 255);
-    //Serial.print(temperatura);
-    if (temperatura2 == "-127.00") // acho de depois posso tirar
-    {
-      // do nothing
-    }
-    else
-    {
-      //Serial.print("Temperatura do NanoFluido (Entrada) : ");
-      //Serial.println(sensors.getTempCByIndex(0));
-      //Serial.print(temperatura2);
-      //Serial.println();
-      delay(500);
-    }
-    Temperature2 = temp2;
-
-    if (Temperature2 <= ValorAjustado)
-    {
-      //digitalWrite(Rele_Peltier, HIGH);
-      int valor2 = 255;
-      //int valor2 = 6*valor;//Fazer uma equação para colocar a tensão idela na saída da ponte H
-      analogWrite(pinEnableMotorA, valor2); //Valor do PWM no MOTOR
-      digitalWrite(pinSentido1MotorA, LOW); //Ativa o sentido para refrigerar
-      digitalWrite(pinSentido2MotorA, HIGH);
-      delay(1000);
-    }
-    if (Temperature2 >= (ValorAjustado + 2))
-    {
-      analogWrite(pinEnableMotorA, 0);
-    }
 
   /*******************************************************************************************************
   ------------------------------Enviando as informações para a serial------------------------------------
@@ -316,6 +283,14 @@ void serialEvent()
       i++;
       stringFlag = true; 
   }
+}
+
+float printTemperature(DeviceAddress deviceAddress)
+{
+  float tempC = sensors.getTempC(deviceAddress);
+  sensors.setResolution(deviceAddress, 10);
+  
+  return tempC;
 }
 
 /*******************************************************************************************************
