@@ -329,7 +329,7 @@ namespace SupervisorioDASC
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(307, 176);
+            this.label13.Location = new System.Drawing.Point(6, 266);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(157, 17);
             this.label13.TabIndex = 15;
@@ -338,7 +338,7 @@ namespace SupervisorioDASC
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(19, 266);
+            this.label12.Location = new System.Drawing.Point(317, 176);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(128, 17);
             this.label12.TabIndex = 14;
@@ -347,7 +347,7 @@ namespace SupervisorioDASC
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(160, 176);
+            this.label11.Location = new System.Drawing.Point(156, 176);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(133, 17);
             this.label11.TabIndex = 13;
@@ -356,7 +356,7 @@ namespace SupervisorioDASC
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(19, 176);
+            this.label10.Location = new System.Drawing.Point(6, 176);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(122, 17);
             this.label10.TabIndex = 12;
@@ -396,7 +396,7 @@ namespace SupervisorioDASC
             // 
             this.lblTempAmb.AutoSize = true;
             this.lblTempAmb.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTempAmb.Location = new System.Drawing.Point(300, 193);
+            this.lblTempAmb.Location = new System.Drawing.Point(-1, 283);
             this.lblTempAmb.Name = "lblTempAmb";
             this.lblTempAmb.Size = new System.Drawing.Size(141, 58);
             this.lblTempAmb.TabIndex = 10;
@@ -406,7 +406,7 @@ namespace SupervisorioDASC
             // 
             this.lblTempFinal.AutoSize = true;
             this.lblTempFinal.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTempFinal.Location = new System.Drawing.Point(12, 283);
+            this.lblTempFinal.Location = new System.Drawing.Point(310, 193);
             this.lblTempFinal.Name = "lblTempFinal";
             this.lblTempFinal.Size = new System.Drawing.Size(141, 58);
             this.lblTempFinal.TabIndex = 9;
@@ -416,7 +416,7 @@ namespace SupervisorioDASC
             // 
             this.lblTempInicial.AutoSize = true;
             this.lblTempInicial.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTempInicial.Location = new System.Drawing.Point(153, 193);
+            this.lblTempInicial.Location = new System.Drawing.Point(149, 193);
             this.lblTempInicial.Name = "lblTempInicial";
             this.lblTempInicial.Size = new System.Drawing.Size(141, 58);
             this.lblTempInicial.TabIndex = 8;
@@ -426,7 +426,7 @@ namespace SupervisorioDASC
             // 
             this.lblSolar.AutoSize = true;
             this.lblSolar.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSolar.Location = new System.Drawing.Point(10, 193);
+            this.lblSolar.Location = new System.Drawing.Point(-3, 193);
             this.lblSolar.Name = "lblSolar";
             this.lblSolar.Size = new System.Drawing.Size(137, 58);
             this.lblSolar.TabIndex = 6;

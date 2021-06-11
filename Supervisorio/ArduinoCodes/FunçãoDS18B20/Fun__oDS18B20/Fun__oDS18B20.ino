@@ -166,7 +166,7 @@ void loop() {
   
  
   //espera até que a variável adc mude para true
-  if(true){
+  if(adc){
 
         /*******************************************************************************************************  
     -------Converte os valores de Set Point da bomba peristaltica e da placa peltier para Inteiro-----------
@@ -219,7 +219,7 @@ void loop() {
 /*******************************************************************************************************
 -----------------Evento que espera a comunicação com o serial e trata o dado recebido-------------------
 *******************************************************************************************************/
-/*void serialEvent()
+void serialEvent()
 {
   while(Serial.available())
   {
@@ -278,7 +278,7 @@ void loop() {
       i++;
       stringFlag = true; 
   }
-}*/
+}
 
 
 /*******************************************************************************************************

@@ -35,7 +35,7 @@ int valor = 0;
 int valor3 = 0;
 
 //=========================== Declarando Variáveis Globais =========================//
-float Constante = 17.05;// Constante para estabelecer a faixa de temperatura de 0 à 60 Graus ==> 1023/60 = 17.05
+//float Constante = 17.05;// Constante para estabelecer a faixa de temperatura de 0 à 60 Graus ==> 1023/60 = 17.05
 float  temperatura; // Variável que recebe o valor convertido para temperatura.
 int ValorAjustado = 0;
 
@@ -66,6 +66,7 @@ float tempAmbiente;
 //int Temperature;
 int Temperature2;
 
+int teste; 
 
 void setup() {
   Serial.begin(9600);
@@ -98,7 +99,7 @@ void loop() {
   
  
   //espera até que a variável adc mude para true
-  if(true){
+  if(adc){
 
         /*******************************************************************************************************  
     -------Converte os valores de Set Point da bomba peristaltica e da placa peltier para Inteiro-----------
@@ -127,7 +128,9 @@ void loop() {
     valor = showSPtemp; //valor do set point da temperatura para controlar a saída em PWM
     valor = map(valor, 0, 1023, 0, 255);
 
-    ValorAjustado = showSPtemp / Constante;
+    ValorAjustado = showSPtemp;
+    
+    //ValorAjustado = showSPtemp / Constante;
     //Serial.print("Setpoint : ");
     //Serial.print(ValorAjustado);
     //Serial.println();
@@ -156,21 +159,6 @@ void loop() {
     }
     Temperature2 = temp2;
 
-    if (Temperature2 <= ValorAjustado)
-    {
-      //digitalWrite(Rele_Peltier, HIGH);
-      int valor2 = 255;
-      //int valor2 = 6*valor;//Fazer uma equação para colocar a tensão idela na saída da ponte H
-      analogWrite(pinEnableMotorA, valor2); //Valor do PWM no MOTOR
-      digitalWrite(pinSentido1MotorA, LOW); //Ativa o sentido para refrigerar
-      digitalWrite(pinSentido2MotorA, HIGH);
-      delay(1000);
-    }
-    if (Temperature2 >= (ValorAjustado + 2))
-    {
-      analogWrite(pinEnableMotorA, 0);
-    }
-
 
     /*******************************************************************************************************
     ------------------------------função do programa: Sensor(Saída) Temperatura DS18B20-------------------
@@ -197,26 +185,48 @@ void loop() {
     
     int Temperature = temp;
 
-    if (Temperature >= ValorAjustado)
+    if ( Temperature > (ValorAjustado + 2) )
     {
       //digitalWrite(Rele_Peltier, HIGH);
       int valor2 = 255;
+      showSPVM -= 20;
       //int valor2 = 6*valor;//Fazer uma equação para colocar a tensão idela na saída da ponte H
+      analogWrite(pinEnableMotorA, 0);
       analogWrite(pinEnableMotorB, valor2); //Valor do PWM no MOTOR
       digitalWrite(pinSentido1MotorB, LOW); //Ativa o sentido para refrigerar
       digitalWrite(pinSentido2MotorB, HIGH);
       delay(1000);
     }
-    if (Temperature <= (ValorAjustado - 2))
+
+    if (Temperature < (ValorAjustado - 2) )
+    {
+      //digitalWrite(Rele_Peltier, HIGH);
+      int valor2 = 255;
+      showSPVM += 40;
+      //int valor2 = 6*valor;//Fazer uma equação para colocar a tensão idela na saída da ponte H
+      analogWrite(pinEnableMotorB, 0);
+      analogWrite(pinEnableMotorA, valor2); //Valor do PWM no MOTOR
+      digitalWrite(pinSentido1MotorA, LOW); //Ativa o sentido para refrigerar
+      digitalWrite(pinSentido2MotorA, HIGH);
+      delay(1000);
+    }
+    
+    /*if (Temperature >= (ValorAjustado + 2))
+    {
+      analogWrite(pinEnableMotorA, 0);
+    }*/
+    
+    if ((Temperature >= (ValorAjustado - 2)) && (Temperature <= (ValorAjustado + 2)))
     {
       analogWrite(pinEnableMotorB, 0);
+      analogWrite(pinEnableMotorA, 0);
     }
 
 
   /*******************************************************************************************************
   ------------------------------Enviando as informações para a serial------------------------------------
   *******************************************************************************************************/
-    enviarSerial(pinSolar, Temperature2, Temperature, tempAmbiente, pinUmidAmb,showSPtemp, showSPVM);
+    enviarSerial(pinSolar, Temperature2, Temperature, tempAmbiente, pinUmidAmb,ValorAjustado, showSPVM );
   }
     
 }
