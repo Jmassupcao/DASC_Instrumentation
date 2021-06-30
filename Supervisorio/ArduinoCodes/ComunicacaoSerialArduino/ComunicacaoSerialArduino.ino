@@ -28,45 +28,41 @@ int valor3 = 0;
 #define pinSentido1MotorB 7
 #define pinSentido2MotorB 6
 
-#define pinBomba 5
+#define pinBomba 5 //pino usado para o controle da bomba peristáltica 
+float vazaoBombaPWM; //variável usada para armazenar o valor em pwm do set point da vazão convertido pela regressão linear 
 
 //float Constante = 17.05;// Constante para estabelecer a faixa de temperatura de 0 à 60 Graus ==> 1023/60 = 17.05
 float  temperatura; // Variável que recebe o valor convertido para temperatura.
 int ValorAjustado = 0;
 
 
-boolean adc; //variável de iniciação do códgo, muda para true quando recebe o comando do serial 
-char rec[100]; //variável que irá receber os caracteres vindos da serial
-int i=0; //variável de controle para a variável rec
+#define  pinCelSolar A3   //pino do conversor AD do sensor solar
+float intSolar; //variável para armazenar o valor lido na célula solar e convertido em sóis
+
+#define  pinUmidAmb A4 //pino do conversor AD do sensor de umidade ambiente
 
 
-int  pinSolar = A3;   //pino do conversor AD do sensor solar
-//int  pintempIn = 1;  //pino do conversor AD do sensor de temperatura inicial do DASC
-//int  pintempFn = 2;  //pino do conversor AD do sensor de temperatura final do DASC
-//int  pintempAmb = 3; //pino do conversor AD do sensor de temperatura ambiente
-int  pinUmidAmb = A4; //pino do conversor AD do sensor de umidade ambiente
+String setPointtemp; //variável para armazenar o set poit da temperatura da célula peltier
+String setPointVB;   //variável para armazenar o set point da vazão do moto 
+int    showSPtemp;   //variável para armazenar o set point da temperatura convertido para Inteiro
+int    vazaoBomba;    //variável para armazenar o set point da vazão da bomba peristáltica convertido para Inteiro
 
-//int pinPeltier = 3; //pino usado para o controle da placa peltier
-int pinMotor   = A5; //pino usado para o controle da bomba peristáltica 
+bool stringFlag = true; //flag logica usada no tratamento da string enviada pelo supervisório
 
-String   setPointtemp; //variável para amarzenar o set poit da temperatura da célula peltier
-String   setPointVB;   //variável para amarzenar o set point da vazão do moto 
-bool stringFlag = true;
-int showSPtemp;
-int vazaoBomba;
-
-//float temp;
 float temp2;
 float tempAmbiente;
 //int Temperature;
 int Temperature2;
 
-int teste; 
+boolean adc; //variável de iniciação do códgo, muda para true quando recebe o comando do serial 
+char rec[100]; //variável que irá receber os caracteres vindos da serial
+int i = 0; //variável de controle para a variável rec
 
 void setup() {
   Serial.begin(9600);
 
   pinMode(SensorLM35, INPUT);//Define como Entrada o Sensor ambiente
+  pinMode(pinCelSolar, INPUT); //Define como Entrada o Sensor solar
 
   pinMode(pinEnableMotorA, OUTPUT);
   pinMode(pinEnableMotorB, OUTPUT);
@@ -79,7 +75,6 @@ void setup() {
   pinMode(pinBomba, OUTPUT);
   
   //pinMode(pinPeltier, OUTPUT);
-  pinMode(pinMotor, OUTPUT);
 
   sensors.begin();
   
@@ -216,16 +211,22 @@ void loop() {
     }
 
   /*******************************************************************************************************
+  ------------------------------ Leitura e conversão do sensor solar ------------------------------------
+  *******************************************************************************************************/
+  intSolar = (0.286860655897221 * analogRead(pinCelSolar)) + (-0.157735967619378); //regressão linear que converte o valor de tensão lida na célula solar para o valor de referência em sóis
+  int inteiroIntSolar = (0.286860655897221 * analogRead(pinCelSolar)) + (-0.157735967619378); //valor convertido em inteiro (temporário!!)
+  
+  /*******************************************************************************************************
   ------------------------------Controle da bomba peristáltica------------------------------------
   *******************************************************************************************************/
-  float vazaoBombaPWM = (2.70120497463551 * setPointVB.toFloat()) + 82.3781191907456; //regressão linear que converte o set point da vazão no valor do PWM correspondente 
+  vazaoBombaPWM = (2.70120497463551 * setPointVB.toFloat()) + 82.3781191907456; //regressão linear que converte o set point da vazão no valor do PWM correspondente 
 
   analogWrite(pinBomba, vazaoBombaPWM); //ativa a bomba com a vazão solicitada pelo set point do supervisório
 
   /*******************************************************************************************************
   ------------------------------Enviando as informações para a serial------------------------------------
   *******************************************************************************************************/
-    enviarSerial(pinSolar, Temperature2, Temperature, tempAmbiente, pinUmidAmb,ValorAjustado, vazaoBomba );
+    enviarSerial(inteiroIntSolar, Temperature2, Temperature, tempAmbiente, pinUmidAmb,ValorAjustado, vazaoBomba );
   }
     
 }
@@ -284,7 +285,7 @@ void serialEvent()
         //desliga os componentes ativos do DASC
         analogWrite(pinEnableMotorA, 0);
         analogWrite(pinEnableMotorB, 0);
-        analogWrite(pinMotor, 0);
+        analogWrite(pinBomba, 0);
       }
         
     }
