@@ -1,22 +1,22 @@
-//#include  <LiquidCrystal.h>         // Inclui a biblioteca para utilizar o LCD.
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
 //================================ Mapeamento de Hardware ============================//
-//LiquidCrystal LCD (12, 11, 5, 4, 3, 2); //Esta função declara quais os pinos do Arduino serão utilizados para o controle do LCD 
+
 #define SensorLM35 A0 //Pino o qual o sensor está conectado
  
 #define Sensor 13  // Define o pino 13 como “sensor na saída do coletor”
-//DeviceAddress SensorEntrada = { 0x28, 0xAA, 0xBE, 0x24, 0x54, 0x14, 0x01, 0x72 }; //Define como sensor1 o sensor desse código
-//DeviceAddress SensorSaida = { 0x28, 0x31, 0x1A, 0x88, 0x13, 0x19, 0x01, 0x6E }; //Define como sensor2 o sensor desse código
 
 uint8_t sensorEntrada[8] = { 0x28, 0xAA, 0xBE, 0x24, 0x54, 0x14, 0x01, 0x72 }; //Define como sensor1 o sensor desse código
 uint8_t sensorSaida[8] = { 0x28, 0x31, 0x1A, 0x88, 0x13, 0x19, 0x01, 0x6E }; //Define como sensor2 o sensor desse código
 
 
-//#define SensorEntrada 12  // Define o pino 12 como “sensor na entrada do coletro”
-//#define PotenciometroAjustetemp 1 //Ajuste do setpoint da temperatura
-//#define Rele_Peltier 6
+OneWire oneWire(Sensor);//cria primeiramente um objeto referente ao o pino que será utilizado para transmissão de dados.
+DallasTemperature sensors(&oneWire);//objeto que será responsável por representar o barramento de sensores no código
+int valor = 0;
+int valor3 = 0;
+
+//=========================== Declarando Variáveis Globais =========================//
 
 #define pinEnableMotorA 11      //Porta Digital PWM~
 #define pinEnableMotorB 10     //Porta Digital PWM~
@@ -28,13 +28,8 @@ uint8_t sensorSaida[8] = { 0x28, 0x31, 0x1A, 0x88, 0x13, 0x19, 0x01, 0x6E }; //D
 #define pinSentido1MotorB 7
 #define pinSentido2MotorB 6
 
+#define pinBomba 5
 
-OneWire oneWire(Sensor);//cria primeiramente um objeto referente ao o pino que será utilizado para transmissão de dados.
-DallasTemperature sensors(&oneWire);//objeto que será responsável por representar o barramento de sensores no código
-int valor = 0;
-int valor3 = 0;
-
-//=========================== Declarando Variáveis Globais =========================//
 //float Constante = 17.05;// Constante para estabelecer a faixa de temperatura de 0 à 60 Graus ==> 1023/60 = 17.05
 float  temperatura; // Variável que recebe o valor convertido para temperatura.
 int ValorAjustado = 0;
@@ -55,10 +50,10 @@ int  pinUmidAmb = A4; //pino do conversor AD do sensor de umidade ambiente
 int pinMotor   = A5; //pino usado para o controle da bomba peristáltica 
 
 String   setPointtemp; //variável para amarzenar o set poit da temperatura da célula peltier
-String   setPointVM;   //variável para amarzenar o set point da vazão do moto 
+String   setPointVB;   //variável para amarzenar o set point da vazão do moto 
 bool stringFlag = true;
 int showSPtemp;
-int showSPVM;
+int vazaoBomba;
 
 //float temp;
 float temp2;
@@ -81,6 +76,7 @@ void setup() {
   pinMode(pinSentido1MotorB, OUTPUT);
   pinMode(pinSentido2MotorB, OUTPUT);
 
+  pinMode(pinBomba, OUTPUT);
   
   //pinMode(pinPeltier, OUTPUT);
   pinMode(pinMotor, OUTPUT);
@@ -105,10 +101,8 @@ void loop() {
     -------Converte os valores de Set Point da bomba peristaltica e da placa peltier para Inteiro-----------
     *******************************************************************************************************/
     showSPtemp = setPointtemp.toInt();
-    showSPVM = setPointVM.toInt();
+    vazaoBomba = setPointVB.toInt();
     
- 
-
     
     /*******************************************************************************************************  
     ------------------------------função do programa: verificar a temperatura Ambiente-------------------
@@ -134,6 +128,7 @@ void loop() {
     //Serial.print("Setpoint : ");
     //Serial.print(ValorAjustado);
     //Serial.println();
+    
     delay(500);
 
     /*******************************************************************************************************
@@ -189,7 +184,6 @@ void loop() {
     {
       //digitalWrite(Rele_Peltier, HIGH);
       int valor2 = 255;
-      showSPVM -= 20;
       //int valor2 = 6*valor;//Fazer uma equação para colocar a tensão idela na saída da ponte H
       analogWrite(pinEnableMotorA, 0);
       analogWrite(pinEnableMotorB, valor2); //Valor do PWM no MOTOR
@@ -202,7 +196,6 @@ void loop() {
     {
       //digitalWrite(Rele_Peltier, HIGH);
       int valor2 = 255;
-      showSPVM += 40;
       //int valor2 = 6*valor;//Fazer uma equação para colocar a tensão idela na saída da ponte H
       analogWrite(pinEnableMotorB, 0);
       analogWrite(pinEnableMotorA, valor2); //Valor do PWM no MOTOR
@@ -222,11 +215,17 @@ void loop() {
       analogWrite(pinEnableMotorA, 0);
     }
 
+  /*******************************************************************************************************
+  ------------------------------Controle da bomba peristáltica------------------------------------
+  *******************************************************************************************************/
+  float vazaoBombaPWM = (2.70120497463551 * setPointVB.toFloat()) + 82.3781191907456; //regressão linear que converte o set point da vazão no valor do PWM correspondente 
+
+  analogWrite(pinBomba, vazaoBombaPWM); //ativa a bomba com a vazão solicitada pelo set point do supervisório
 
   /*******************************************************************************************************
   ------------------------------Enviando as informações para a serial------------------------------------
   *******************************************************************************************************/
-    enviarSerial(pinSolar, Temperature2, Temperature, tempAmbiente, pinUmidAmb,ValorAjustado, showSPVM );
+    enviarSerial(pinSolar, Temperature2, Temperature, tempAmbiente, pinUmidAmb,ValorAjustado, vazaoBomba );
   }
     
 }
@@ -264,7 +263,7 @@ void serialEvent()
               }
               else //caso não os bytes da vazão do motor são amarzenados na variável 
               {
-                setPointVM += rec[a+1];
+                setPointVB += rec[a+1];
               }
               
               stringFlag = false; 
@@ -280,7 +279,7 @@ void serialEvent()
 
         //limpa as variáveis de set point 
         setPointtemp = "";
-        setPointVM   = "";
+        setPointVB   = "";
 
         //desliga os componentes ativos do DASC
         analogWrite(pinEnableMotorA, 0);
@@ -307,7 +306,7 @@ float printTemperature(DeviceAddress deviceAddress)
 -----------------Função de envio das informações do arduino para o supervisório-------------------------
 *******************************************************************************************************/
 
-void enviarSerial(int solar, int tempEntrada, int tempSaida, int tempAmbiente, int umidadeAmbiente, int setPointTemp, int setPointVM)
+void enviarSerial(int solar, int tempEntrada, int tempSaida, int tempAmbiente, int umidadeAmbiente, int setPointTemp, int setPointVB)
 {
   
   int adSolar = analogRead(solar);
@@ -319,7 +318,7 @@ void enviarSerial(int solar, int tempEntrada, int tempSaida, int tempAmbiente, i
   char ad_buffer[64];
 
   snprintf(ad_buffer, sizeof(ad_buffer), "AN0:%04d:BN0:%04d:CN0:%04d:DN0:%04d:EN0:%04d:FN0:%04d:GN0:%04d:", 
-                                                  adSolar, tempEntrada, tempSaida, tempAmbiente, adUmidadeAmbiente, setPointTemp, setPointVM);
+                                                  adSolar, tempEntrada, tempSaida, tempAmbiente, adUmidadeAmbiente, setPointTemp, setPointVB);
   Serial.print(ad_buffer);
   delay(300); 
 }
