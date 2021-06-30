@@ -8,3 +8,7 @@ C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\
 C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.csproj.CoreCompileInputs.cache
 C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.exe
 C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.pdb
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\bin\Debug\SupervisorioDASC.exe.manifest
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\bin\Debug\SupervisorioDASC.application
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.exe.manifest
+C:\Users\joaom\Documents\Repositories\DASC instrumentation\DASC_Instrumentation\Supervisorio\SupervisorioApp\SupervisorioDASC\SupervisorioDASC\obj\Debug\SupervisorioDASC.application
