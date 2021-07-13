@@ -44,8 +44,8 @@ float intSolar; //variável para armazenar o valor lido na célula solar e conve
 
 String setPointtemp; //variável para armazenar o set poit da temperatura da célula peltier
 String setPointVB;   //variável para armazenar o set point da vazão do moto 
-int    showSPtemp;   //variável para armazenar o set point da temperatura convertido para Inteiro
-int    vazaoBomba;    //variável para armazenar o set point da vazão da bomba peristáltica convertido para Inteiro
+float    showSPtemp;   //variável para armazenar o set point da temperatura convertido para Inteiro
+float    vazaoBomba;    //variável para armazenar o set point da vazão da bomba peristáltica convertido para Inteiro
 
 bool stringFlag = true; //flag logica usada no tratamento da string enviada pelo supervisório
 
@@ -95,8 +95,8 @@ void loop() {
         /*******************************************************************************************************  
     -------Converte os valores de Set Point da bomba peristaltica e da placa peltier para Inteiro-----------
     *******************************************************************************************************/
-    showSPtemp = setPointtemp.toInt();
-    vazaoBomba = setPointVB.toInt();
+    showSPtemp = setPointtemp.toFloat();
+    vazaoBomba = setPointVB.toFloat();
     
     
     /*******************************************************************************************************  
@@ -219,14 +219,14 @@ void loop() {
   /*******************************************************************************************************
   ------------------------------Controle da bomba peristáltica------------------------------------
   *******************************************************************************************************/
-  vazaoBombaPWM = (2.70120497463551 * setPointVB.toFloat()) + 82.3781191907456; //regressão linear que converte o set point da vazão no valor do PWM correspondente 
+  vazaoBombaPWM = (2.70120497463551 * vazaoBomba) + 82.3781191907456; //regressão linear que converte o set point da vazão no valor do PWM correspondente 
 
   analogWrite(pinBomba, vazaoBombaPWM); //ativa a bomba com a vazão solicitada pelo set point do supervisório
 
   /*******************************************************************************************************
   ------------------------------Enviando as informações para a serial------------------------------------
   *******************************************************************************************************/
-    enviarSerial(inteiroIntSolar, Temperature2, Temperature, tempAmbiente, pinUmidAmb,ValorAjustado, vazaoBomba);
+    enviarSerial(intSolar, temp2, temp, tempAmbiente, pinUmidAmb, showSPtemp, vazaoBomba);
   }
     
 }
@@ -307,19 +307,34 @@ float printTemperature(DeviceAddress deviceAddress)
 -----------------Função de envio das informações do arduino para o supervisório-------------------------
 *******************************************************************************************************/
 
-void enviarSerial(int solar, int tempEntrada, int tempSaida, int tempAmbiente, int umidadeAmbiente, int setPointTemp, int setPointVB)
+void enviarSerial(float solar, float tempEntrada, float tempSaida, int tempAmbiente, int umidadeAmbiente, float setPointTemp, float setPointVB)
 {
   
-  int adSolar = analogRead(solar);
+  //int adSolar = analogRead(solar);
   //int adTwo = analogRead(two);
   //int adThree = analogRead(three);
   //int adTempAmbiente = analogRead(tempAmbiente);
   int adUmidadeAmbiente = analogRead(umidadeAmbiente);
 
+  char str_solar[6];//vetor que irá armazenar os caractéres da string C-style referente à intensidade solar
+  dtostrf(solar, 3, 1, str_solar); //conversão do valor em float da intensidade solar para uma C-style string, metodo necessário para enviar os valores em float pela serial
+
+  char str_tempEntrada[6];//vetor que irá armazenar os caractéres da string C-style referente à temperatura de entrada do DASC
+  dtostrf(tempEntrada, 3, 1, str_tempEntrada); //conversão do valor em float da temperatura de entrada do DASC para uma C-style string, metodo necessário para enviar os valores em float pela serial
+  
+  char str_tempSaida[6];//vetor que irá armazenar os caractéres da string C-style referente à temperatura de saída do DASC
+  dtostrf(tempSaida, 3, 1, str_tempSaida); //conversão do valor em float da intensidade temperatura de saída do DASC para uma C-style string, metodo necessário para enviar os valores em float pela serial
+  
+  char str_setPointTemp[6];//vetor que irá armazenar os caractéres da string C-style referente ao Set Point temperatura
+  dtostrf(setPointTemp, 3, 1, str_setPointTemp); //conversão do valor em float do Set Point da temperatura para uma C-style string, metodo necessário para enviar os valores em float pela serial
+
+  char str_setPointVB[6];//vetor que irá armazenar os caractéres da string C-style referente ao Set Point da vazaõ da bomba
+  dtostrf(setPointVB, 3, 1, str_setPointVB); //conversão do valor em float do Set Point da Vazão para uma C-style string, metodo necessário para enviar os valores em float pela serial
+
   char ad_buffer[64];
 
-  snprintf(ad_buffer, sizeof(ad_buffer), "AN0:%04d:BN0:%04d:CN0:%04d:DN0:%04d:EN0:%04d:FN0:%04d:GN0:%04d:", 
-                                                  adSolar, tempEntrada, tempSaida, tempAmbiente, adUmidadeAmbiente, setPointTemp, setPointVB);
+  snprintf(ad_buffer, sizeof(ad_buffer), "AN0:%04s:BN0:%04s:CN0:%04s:DN0:%04d:EN0:%04d:FN0:%04s:GN0:%04s:", 
+                                                  str_solar, str_tempEntrada, str_tempSaida, tempAmbiente, adUmidadeAmbiente, str_setPointTemp, str_setPointVB);
   Serial.print(ad_buffer);
   delay(300); 
 }
