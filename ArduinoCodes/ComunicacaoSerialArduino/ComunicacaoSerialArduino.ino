@@ -226,7 +226,7 @@ void loop() {
   /*******************************************************************************************************
   ------------------------------Enviando as informações para a serial------------------------------------
   *******************************************************************************************************/
-    enviarSerial(inteiroIntSolar, Temperature2, Temperature, tempAmbiente, pinUmidAmb,ValorAjustado, vazaoBomba );
+    enviarSerial(inteiroIntSolar, Temperature2, Temperature, tempAmbiente, pinUmidAmb,ValorAjustado, vazaoBomba);
   }
     
 }
