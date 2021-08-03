@@ -265,9 +265,9 @@ namespace SupervisorioDASC
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(19, 138);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(226, 17);
+            this.label9.Size = new System.Drawing.Size(231, 17);
             this.label9.TabIndex = 24;
-            this.label9.Text = "Set Point Vazão do moto (ml/min): ";
+            this.label9.Text = "Set Point Vazão do motor (ml/min): ";
             // 
             // tbxSetPointTemp
             // 

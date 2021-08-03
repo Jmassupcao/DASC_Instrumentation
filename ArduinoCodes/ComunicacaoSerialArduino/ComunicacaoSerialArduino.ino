@@ -315,27 +315,27 @@ void enviarSerial(float solar, float tempEntrada, float tempSaida, int tempAmbie
   //int adTwo = analogRead(two);
   //int adThree = analogRead(three);
   //int adTempAmbiente = analogRead(tempAmbiente);
-  int adUmidadeAmbiente = analogRead(umidadeAmbiente);
+  //int adUmidadeAmbiente = analogRead(umidadeAmbiente);
 
   char str_solar[6];//vetor que irá armazenar os caractéres da string C-style referente à intensidade solar
-  dtostrf(solar, 3, 1, str_solar); //conversão do valor em float da intensidade solar para uma C-style string, metodo necessário para enviar os valores em float pela serial
+  dtostrf(solar, 3, 2, str_solar); //conversão do valor em float da intensidade solar para uma C-style string, metodo necessário para enviar os valores em float pela serial
 
   char str_tempEntrada[6];//vetor que irá armazenar os caractéres da string C-style referente à temperatura de entrada do DASC
-  dtostrf(tempEntrada, 3, 1, str_tempEntrada); //conversão do valor em float da temperatura de entrada do DASC para uma C-style string, metodo necessário para enviar os valores em float pela serial
+  dtostrf(tempEntrada, 3, 2, str_tempEntrada); //conversão do valor em float da temperatura de entrada do DASC para uma C-style string, metodo necessário para enviar os valores em float pela serial
   
   char str_tempSaida[6];//vetor que irá armazenar os caractéres da string C-style referente à temperatura de saída do DASC
-  dtostrf(tempSaida, 3, 1, str_tempSaida); //conversão do valor em float da intensidade temperatura de saída do DASC para uma C-style string, metodo necessário para enviar os valores em float pela serial
+  dtostrf(tempSaida, 3, 2, str_tempSaida); //conversão do valor em float da intensidade temperatura de saída do DASC para uma C-style string, metodo necessário para enviar os valores em float pela serial
   
   char str_setPointTemp[6];//vetor que irá armazenar os caractéres da string C-style referente ao Set Point temperatura
-  dtostrf(setPointTemp, 3, 1, str_setPointTemp); //conversão do valor em float do Set Point da temperatura para uma C-style string, metodo necessário para enviar os valores em float pela serial
+  dtostrf(setPointTemp, 3, 2, str_setPointTemp); //conversão do valor em float do Set Point da temperatura para uma C-style string, metodo necessário para enviar os valores em float pela serial
 
   char str_setPointVB[6];//vetor que irá armazenar os caractéres da string C-style referente ao Set Point da vazaõ da bomba
-  dtostrf(setPointVB, 3, 1, str_setPointVB); //conversão do valor em float do Set Point da Vazão para uma C-style string, metodo necessário para enviar os valores em float pela serial
+  dtostrf(setPointVB, 3, 2, str_setPointVB); //conversão do valor em float do Set Point da Vazão para uma C-style string, metodo necessário para enviar os valores em float pela serial
 
   char ad_buffer[64];
 
   snprintf(ad_buffer, sizeof(ad_buffer), "AN0:%04s:BN0:%04s:CN0:%04s:DN0:%04d:EN0:%04d:FN0:%04s:GN0:%04s:", 
-                                                  str_solar, str_tempEntrada, str_tempSaida, tempAmbiente, adUmidadeAmbiente, str_setPointTemp, str_setPointVB);
+                                                  str_solar, str_tempEntrada, str_tempSaida, tempAmbiente, umidadeAmbiente, str_setPointTemp, str_setPointVB);
   Serial.print(ad_buffer);
   delay(300); 
 }
