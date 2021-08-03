@@ -214,7 +214,7 @@ void loop() {
   ------------------------------ Leitura e conversão do sensor solar ------------------------------------
   *******************************************************************************************************/
   intSolar = (0.286860655897221 * analogRead(pinCelSolar)) + (-0.157735967619378); //regressão linear que converte o valor de tensão lida na célula solar para o valor de referência em sóis
-  int inteiroIntSolar = (0.286860655897221 * analogRead(pinCelSolar)) + (-0.157735967619378); //valor convertido em inteiro (temporário!!)
+  
   
   /*******************************************************************************************************
   ------------------------------Controle da bomba peristáltica------------------------------------
@@ -226,7 +226,8 @@ void loop() {
   /*******************************************************************************************************
   ------------------------------Enviando as informações para a serial------------------------------------
   *******************************************************************************************************/
-    enviarSerial(intSolar, temp2, temp, tempAmbiente, pinUmidAmb, showSPtemp, vazaoBomba);
+    enviarSerial(intSolar, temp2, temp, 25, 50, showSPtemp, vazaoBomba);
+    
   }
     
 }
