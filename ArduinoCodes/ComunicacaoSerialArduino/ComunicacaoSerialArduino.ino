@@ -1,6 +1,14 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
+//bibliotecas para o sensor de temperatura e umidade bme280
+#include <Wire.h>
+#include <SPI.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+
+Adafruit_BME280 bme; //bjeto Adafruit_BME280 chamado bme, para a comunicação I2C
+
 //================================ Mapeamento de Hardware ============================//
 
 #define SensorLM35 A0 //Pino o qual o sensor está conectado
@@ -39,7 +47,7 @@ int ValorAjustado = 0;
 #define  pinCelSolar A3   //pino do conversor AD do sensor solar
 float intSolar; //variável para armazenar o valor lido na célula solar e convertido em sóis
 
-#define  pinUmidAmb A4 //pino do conversor AD do sensor de umidade ambiente
+//#define  pinUmidAmb A4 //pino do conversor AD do sensor de umidade ambiente
 
 
 String setPointtemp; //variável para armazenar o set poit da temperatura da célula peltier
@@ -51,6 +59,7 @@ bool stringFlag = true; //flag logica usada no tratamento da string enviada pelo
 
 float temp2;
 float tempAmbiente;
+float umidadeAmbiente;
 //int Temperature;
 int Temperature2;
 
@@ -83,6 +92,12 @@ void setup() {
 
   sensors.getAddress(SensorEntrada, 0);
   sensors.getAddress(SensorEntrada, 1);*/
+
+  //inicialização do sensor bme280
+  bool status = bme.begin();
+  if (!status) {
+    while(1);
+  }
 
 }
 
@@ -222,11 +237,17 @@ void loop() {
   vazaoBombaPWM = (2.70120497463551 * vazaoBomba) + 82.3781191907456; //regressão linear que converte o set point da vazão no valor do PWM correspondente 
 
   analogWrite(pinBomba, vazaoBombaPWM); //ativa a bomba com a vazão solicitada pelo set point do supervisório
+  
+  /*******************************************************************************************************
+  ------------------------------Lendo temperatura e umidade ambiente ------------------------------------
+  *******************************************************************************************************/
+  tempAmbiente = bme.readTemperature();
+  umidadeAmbiente = bme.readHumidity();
 
   /*******************************************************************************************************
   ------------------------------Enviando as informações para a serial------------------------------------
   *******************************************************************************************************/
-    enviarSerial(intSolar, temp2, temp, 25, 50, showSPtemp, vazaoBomba);
+    enviarSerial(intSolar, temp2, temp, tempAmbiente, umidadeAmbiente, showSPtemp, vazaoBomba);
     
   }
     
@@ -308,7 +329,8 @@ float printTemperature(DeviceAddress deviceAddress)
 -----------------Função de envio das informações do arduino para o supervisório-------------------------
 *******************************************************************************************************/
 
-void enviarSerial(float solar, float tempEntrada, float tempSaida, int tempAmbiente, int umidadeAmbiente, float setPointTemp, float setPointVB)
+void enviarSerial(float solar, float tempEntrada, float tempSaida, float tempAmbiente, 
+                  float umidadeAmbiente, float setPointTemp, float setPointVB)
 {
   
   //int adSolar = analogRead(solar);
@@ -326,6 +348,12 @@ void enviarSerial(float solar, float tempEntrada, float tempSaida, int tempAmbie
   char str_tempSaida[6];//vetor que irá armazenar os caractéres da string C-style referente à temperatura de saída do DASC
   dtostrf(tempSaida, 3, 2, str_tempSaida); //conversão do valor em float da intensidade temperatura de saída do DASC para uma C-style string, metodo necessário para enviar os valores em float pela serial
   
+  char str_tempAmbiente[6];//vetor que irá armazenar os caractéres da string C-style referente à temperaura ambiente
+  dtostrf(solar, 3, 2, str_solar); //conversão do valor em float da temperatura ambiente para uma C-style string, metodo necessário para enviar os valores em float pela serial
+
+  char str_umidadeAmbiente[6];//vetor que irá armazenar os caractéres da string C-style referente à umidade ambiente
+  dtostrf(solar, 3, 2, str_solar); //conversão do valor em float da umidade ambiente para uma C-style string, metodo necessário para enviar os valores em float pela serial
+
   char str_setPointTemp[6];//vetor que irá armazenar os caractéres da string C-style referente ao Set Point temperatura
   dtostrf(setPointTemp, 3, 2, str_setPointTemp); //conversão do valor em float do Set Point da temperatura para uma C-style string, metodo necessário para enviar os valores em float pela serial
 
@@ -334,8 +362,8 @@ void enviarSerial(float solar, float tempEntrada, float tempSaida, int tempAmbie
 
   char ad_buffer[64];
 
-  snprintf(ad_buffer, sizeof(ad_buffer), "AN0:%04s:BN0:%04s:CN0:%04s:DN0:%04d:EN0:%04d:FN0:%04s:GN0:%04s:", 
-                                                  str_solar, str_tempEntrada, str_tempSaida, tempAmbiente, umidadeAmbiente, str_setPointTemp, str_setPointVB);
+  snprintf(ad_buffer, sizeof(ad_buffer), "AN0:%04s:BN0:%04s:CN0:%04s:DN0:%04s:EN0:%04s:FN0:%04s:GN0:%04s:", 
+                                                  str_solar, str_tempEntrada, str_tempSaida, str_tempAmbiente, str_umidadeAmbiente, str_setPointTemp, str_setPointVB);
   Serial.print(ad_buffer);
   delay(300); 
 }
